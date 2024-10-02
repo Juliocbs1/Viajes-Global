@@ -10,9 +10,9 @@ name: Viajes Global CI/CD
 
 on:
   push:
-    branches: [ "aws-ec2" ]
+    branches: [ aws-ec2 ]
   pull_request:
-    branches: [ "aws-ec2" ]
+    branches: [ aws-ec2 ]
 
 jobs:
   build:
