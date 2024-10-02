@@ -44,7 +44,7 @@ jobs:
     runs-on: [aws-ec2]
     steps:
       - name: Pull image from docker hub
-        run: docker pull juliocbs1/viajesglobal-github:latest
+        run: docker pull juliocbs1/viajesglobal-github
       - name: Delete old container
         run: docker rm -f viajesglobal-example
       - name: Run rocker container
