@@ -20,7 +20,7 @@ public class ViajesglobalApplication {
 
     @GetMapping
     public String welcome() {
-        return "Welcome to Viajesglobal----OMG";
+        return "Welcome to Viajesglobal----Ju";
     }
 
     public static void main(String[] args) {
