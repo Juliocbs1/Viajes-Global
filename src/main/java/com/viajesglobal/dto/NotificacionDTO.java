@@ -1,6 +1,6 @@
-package com.viajesglobal.entity;
+package com.viajesglobal.dto;
 
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,27 +8,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "notificaciones")
-public class Notificaciones {
-    @Id
-    @Column(name = "id_notificacion")
+public class NotificacionDTO {
     private int idNotificacion;
-    @Column(name = "id_usuario")
+
     private int idUsuario;
 
-    private tipo tipo;
+    private NotificacionDTO.tipo tipo;
 
     private String contenido;
 
-    private estado estado;
+    private NotificacionDTO.estado estado;
 
     private  enum tipo{
-      SMS, Correo, Push
+        SMS, Correo, Push
     }
 
     private enum estado{
         Pendiente, Enviada, Fallida
     }
-
 }

@@ -1,6 +1,5 @@
-package com.viajesglobal.entity;
+package com.viajesglobal.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,15 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "Destinos")
-public class Destinos {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_destino")
+public class DestinoDTO {
     private int idDestino;
-
     private String nombre;
     private String pais;
     private  String ciudad;

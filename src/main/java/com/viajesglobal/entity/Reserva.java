@@ -9,20 +9,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Paquetes")
-public class Paquetes {
+@Table(name = "Reservas")
+public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reserva")
+    private int idReserva;
+    @Column(name = "id_usuario")
+    private int idUsuario;
     @Column(name = "id_paquete")
     private int idPaquete;
 
-    private String nombre;
-    private String descripcion;
-    private long precio;
-    private int disponibilidad;
-    @Column(name = "id_destino")
-    private int idDestino;
+    private estado estado;
 
+    @Column(name = "total_pago")
+    private long totalPago;
 
-
+    private enum estado{
+        Pendiente, Confirmada, Cancelada
+    }
 }

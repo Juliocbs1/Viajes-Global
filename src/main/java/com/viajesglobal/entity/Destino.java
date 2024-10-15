@@ -9,15 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Servicios_Adicionales")
-public class ServiciosAdicionales  {
+@Table(name = "Destinos")
+public class Destino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_servicio")
-    private int idServicio;
+    @Column(name = "id_destino")
+    private int idDestino;
 
-    private String descripcion;
     private String nombre;
-    private long precio;
+    private String pais;
+    private  String ciudad;
+
 }

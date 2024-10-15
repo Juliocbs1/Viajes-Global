@@ -1,9 +1,7 @@
-package com.viajesglobal.entity;
+package com.viajesglobal.dto;
 
+import com.viajesglobal.entity.Usuario;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,19 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "Usuarios")
-public class Usuarios {
-    @Id
-    @Column(name = "id_usuario")
+public class UsuarioDTO {
+
     private long idUsuario;
 
     private String nombre;
     private String correo;
     private String telefono;
     private String contrasena;
-    @Column(name = "preferencia_notificacion")
-    private notificacion preferenciaNotificacion;
+
+    private UsuarioDTO.notificacion preferenciaNotificacion;
 
 
     private enum notificacion{
