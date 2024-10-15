@@ -1,5 +1,7 @@
 package com.viajesglobal.entity;
 
+import com.viajesglobal.estado.NotificacionEstado;
+import com.viajesglobal.estado.TipoNotificacion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,18 +19,14 @@ public class Notificacion {
     @Column(name = "id_usuario")
     private int idUsuario;
 
-    private tipo tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoNotificacion tipo;
 
     private String contenido;
 
-    private estado estado;
 
-    private  enum tipo{
-      SMS, Correo, Push
-    }
+    private NotificacionEstado estado;
 
-    private enum estado{
-        Pendiente, Enviada, Fallida
-    }
+
 
 }

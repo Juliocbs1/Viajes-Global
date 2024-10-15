@@ -1,6 +1,7 @@
 package com.viajesglobal.dto;
 
 
+import com.viajesglobal.estado.ReservaEstado;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,8 @@ public class ReservaDTO {
     private int idReserva;
     private int idUsuario;
     private int idPaquete;
-    private ReservaDTO.estado estado;
+    private ReservaEstado estado;
     private long totalPago;
 
-    private enum estado{
-        Pendiente, Confirmada, Cancelada
-    }
+
 }

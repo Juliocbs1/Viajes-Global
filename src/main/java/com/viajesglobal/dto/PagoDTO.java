@@ -1,6 +1,7 @@
 package com.viajesglobal.dto;
 
 
+import com.viajesglobal.estado.PagoEstado;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,17 +17,10 @@ public class PagoDTO {
 
     private long monto;
 
-    private PagoDTO.metodoPago metodoPago;
-
-    private PagoDTO.estadoPago estadoPago;
+    private PagoEstado estadoPago;
 
     private String idTransaccionSecurepay;
 
-    private enum estadoPago{
-        Pendiente, Completado, Fallido
-    }
-    private enum metodoPago{
-        Tarjeta,Transferencia,Paypal
-    }
+
 
 }

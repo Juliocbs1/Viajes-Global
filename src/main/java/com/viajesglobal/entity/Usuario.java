@@ -1,5 +1,6 @@
 package com.viajesglobal.entity;
 
+import com.viajesglobal.estado.TipoNotificacion;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -23,10 +24,8 @@ public class Usuario {
     private String telefono;
     private String contrasena;
     @Column(name = "preferencia_notificacion")
-    private notificacion preferenciaNotificacion;
+    private TipoNotificacion preferenciaNotificacion;
 
 
-    private enum notificacion{
-        SMS,Correo,Push
-    }
+
 }

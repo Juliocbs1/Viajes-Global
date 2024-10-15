@@ -1,6 +1,7 @@
 package com.viajesglobal.dto;
 
 
+import com.viajesglobal.estado.NotificacionEstado;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +18,6 @@ public class UsuarioDTO {
     private String telefono;
     private String contrasena;
 
-    private UsuarioDTO.notificacion preferenciaNotificacion;
+    private NotificacionEstado preferenciaNotificacion;
 
-
-    private enum notificacion{
-        SMS,Correo,Push
-    }
 }

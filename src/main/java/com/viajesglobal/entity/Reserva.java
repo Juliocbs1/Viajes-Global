@@ -1,5 +1,6 @@
 package com.viajesglobal.entity;
 
+import com.viajesglobal.estado.ReservaEstado;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,13 +20,11 @@ public class Reserva {
     private int idUsuario;
     @Column(name = "id_paquete")
     private int idPaquete;
-
-    private estado estado;
+    @Enumerated(EnumType.STRING)
+    private ReservaEstado estado;
 
     @Column(name = "total_pago")
     private long totalPago;
 
-    private enum estado{
-        Pendiente, Confirmada, Cancelada
-    }
+
 }

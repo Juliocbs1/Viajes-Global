@@ -1,5 +1,6 @@
 package com.viajesglobal.entity;
 
+import com.viajesglobal.estado.PagoEstado;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,19 +21,13 @@ public class Pago {
     private int idReserva;
 
     private long monto;
-    @Column(name = "metodo_pago")
-    private metodoPago metodoPago;
     @Column(name = "estado_pago")
-    private estadoPago estadoPago;
+    private PagoEstado estadoPago;
     @Column(name = "id_transaccion_securepay")
     private String idTransaccionSecurepay;
 
-    private enum estadoPago{
-        Pendiente, Completado, Fallido
-    }
-    private enum metodoPago{
-        Tarjeta,Transferencia,Paypal
-    }
+
+
 
 
 }

@@ -1,6 +1,8 @@
 package com.viajesglobal.dto;
 
 
+import com.viajesglobal.estado.NotificacionEstado;
+import com.viajesglobal.estado.TipoNotificacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,17 +15,11 @@ public class NotificacionDTO {
 
     private int idUsuario;
 
-    private NotificacionDTO.tipo tipo;
+    private TipoNotificacion tipo;
 
     private String contenido;
 
-    private NotificacionDTO.estado estado;
+    private NotificacionEstado estado;
 
-    private  enum tipo{
-        SMS, Correo, Push
-    }
 
-    private enum estado{
-        Pendiente, Enviada, Fallida
-    }
 }
