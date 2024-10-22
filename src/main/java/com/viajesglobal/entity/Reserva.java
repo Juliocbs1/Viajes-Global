@@ -26,5 +26,11 @@ public class Reserva {
     @Column(name = "total_pago")
     private long totalPago;
 
+    public Reserva(int idUsuario, int idPaquete, ReservaEstado estado, long totalPago) {
+        this.idUsuario = idUsuario;
+        this.idPaquete = idPaquete;
+        this.estado = estado;
+        this.totalPago = totalPago;
+    }
 
 }

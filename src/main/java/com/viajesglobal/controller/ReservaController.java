@@ -1,7 +1,10 @@
 package com.viajesglobal.controller;
 
+import com.viajesglobal.dto.ReservaDTO;
+import com.viajesglobal.estado.ReservaEstado;
 import com.viajesglobal.service.ReservaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,8 +15,10 @@ public class ReservaController {
     @Autowired
     ReservaDAO reservaDAO;
 
-    @PostMapping("/save-reserva")
+    @GetMapping("/save-reserva")
     public String saveReserva(){
+        System.out.println(reservaDAO.saveReserva(new ReservaDTO(2, 1, ReservaEstado.Confirmada, 20000)));
+
         return "index";
     }
 

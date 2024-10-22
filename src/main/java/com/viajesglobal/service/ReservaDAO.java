@@ -14,7 +14,7 @@ public class ReservaDAO implements ReservaMethod {
 
     @Override
     public String saveReserva(ReservaDTO reservaDTO) {
-        Reserva reserva = new Reserva(reservaDTO.getIdReserva(),reservaDTO.getIdUsuario(),reservaDTO.getIdPaquete(),reservaDTO.getEstado(),reservaDTO.getTotalPago());
+        Reserva reserva = new Reserva(reservaDTO.getIdUsuario(),reservaDTO.getIdPaquete(),reservaDTO.getEstado(),reservaDTO.getTotalPago());
         try {
             reservaRepository.save(reserva);
             return "Reserva Guardada!";

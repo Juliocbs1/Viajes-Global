@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReservaDTO {
-    private int idReserva;
+
     private int idUsuario;
     private int idPaquete;
     private ReservaEstado estado;
