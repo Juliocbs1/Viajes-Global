@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/reserva")
 public class ReservaController {
@@ -31,6 +33,14 @@ public class ReservaController {
     @GetMapping("/delete-reserva")
     public String deleteReserva(){
         System.out.println(reservaDAO.deleteReserva(2));
+        return "index";
+    }
+    @GetMapping("/list-reservas")
+    public String listReservas(){
+        List<ReservaDTO>reservas = reservaDAO.getReservas();
+        for(ReservaDTO reserva : reservas){
+            System.out.println(reserva);
+        }
         return "index";
     }
 

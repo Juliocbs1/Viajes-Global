@@ -7,6 +7,7 @@ import com.viajesglobal.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,13 +55,15 @@ public class ReservaDAO implements ReservaMethod {
         return "Error en la reserva";
     }
 
-    @Override
-    public ReservaDTO getReserva(Integer idReserva) {
-        return null;
-    }
+
 
     @Override
     public List<ReservaDTO> getReservas() {
-        return null;
+        List<Reserva> reservas = reservaRepository.findAll();
+        List<ReservaDTO> reservasDTO = new ArrayList<>();
+        for(Reserva reserva : reservas) {
+            reservasDTO.add(new ReservaDTO(reserva.getIdUsuario(), reserva.getIdPaquete(), reserva.getEstado(), reserva.getTotalPago()));
+        }
+        return reservasDTO;
     }
 }
