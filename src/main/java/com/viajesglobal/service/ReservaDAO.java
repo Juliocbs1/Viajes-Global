@@ -7,6 +7,7 @@ import com.viajesglobal.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,5 +43,24 @@ public class ReservaDAO implements ReservaMethod {
         return "Error en la reserva";
 
 
+    }
+
+    @Override
+    public String deleteReserva(Integer idReserva) {
+        if(reservaRepository.existsById(idReserva)) {
+            reservaRepository.deleteById(idReserva);
+            return "Reserva Eliminada!";
+        }
+        return "Error en la reserva";
+    }
+
+    @Override
+    public ReservaDTO getReserva(Integer idReserva) {
+        return null;
+    }
+
+    @Override
+    public List<ReservaDTO> getReservas() {
+        return null;
     }
 }

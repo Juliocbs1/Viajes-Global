@@ -28,4 +28,10 @@ public class ReservaController {
         return "index";
     }
 
+    @GetMapping("/delete-reserva")
+    public String deleteReserva(){
+        System.out.println(reservaDAO.deleteReserva(2));
+        return "index";
+    }
+
 }
