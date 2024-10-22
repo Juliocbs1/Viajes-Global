@@ -22,4 +22,10 @@ public class ReservaController {
         return "index";
     }
 
+    @GetMapping("/update-reserva")
+    public String actalizarReserva(){
+        System.out.println(reservaDAO.updateReserva(2,new ReservaDTO(1,2,ReservaEstado.Cancelada,20000)));
+        return "index";
+    }
+
 }
