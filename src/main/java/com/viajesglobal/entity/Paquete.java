@@ -20,8 +20,8 @@ public class Paquete {
     private String descripcion;
     private long precio;
     private int disponibilidad;
-    @Column(name = "id_destino")
-    private int idDestino;
+    @Column(name = "id_ruta")
+    private int idRuta;
 
 
 

@@ -9,15 +9,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Origenes")
-public class Origen {
+@Table(name = "Lugares")
+public class Lugar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_origen")
-    private int idOrigen;
+    @Column(name = "id_lugar")
+    private int idLugar;
 
     private String nombre;
     private String pais;
     private  String ciudad;
+
 }

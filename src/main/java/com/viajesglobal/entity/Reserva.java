@@ -33,6 +33,12 @@ public class Reserva {
     @Enumerated(EnumType.STRING)
     private ReservaEstado estado;
 
+    @Column(name = "id_vuelo")
+    private int idVuelo;
+
+    @Column(name = "cantidad_asientos")
+    private int cantidadAiento;
+
     @Column(name = "total_pago")
     private long totalPago;
 
