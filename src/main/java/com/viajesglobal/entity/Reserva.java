@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +22,14 @@ public class Reserva {
     private int idUsuario;
     @Column(name = "id_paquete")
     private int idPaquete;
+    @Column(name = "id_ruta")
+    private int idRuta;
+
+    @Column(name = "fecha_inicio")
+    private Date fechaInicio;
+    @Column(name = "fecha_fin")
+    private Date fechaFin;
+
     @Enumerated(EnumType.STRING)
     private ReservaEstado estado;
 
