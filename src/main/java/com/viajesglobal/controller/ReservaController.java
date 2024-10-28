@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -19,14 +20,38 @@ public class ReservaController {
 
     @GetMapping("/save-reserva")
     public String saveReserva(){
-        System.out.println(reservaDAO.saveReserva(new ReservaDTO(2, 1, ReservaEstado.Confirmada, 20000)));
+        System.out.println(reservaDAO.saveReserva( new ReservaDTO(
+                1,             // idUsuario
+                1,             // idPaquete (o 0 si no hay paquete)
+                1,             // idRuta (o 0 si no hay ruta)
+                ReservaEstado.Confirmada,
+                2000,          // totalPago
+                Date.valueOf("2024-11-05"),    // fechaInicio
+                Date.valueOf("2024-11-05"),    // fechaFin
+
+                1,             // idVuelo
+
+                2              // cantidadAsientos
+        )));
 
         return "index";
     }
 
     @GetMapping("/update-reserva")
     public String actalizarReserva(){
-        System.out.println(reservaDAO.updateReserva(2,new ReservaDTO(1,2,ReservaEstado.Cancelada,20000)));
+        System.out.println(reservaDAO.updateReserva(2,new ReservaDTO(
+                1,             // idUsuario
+                1,             // idPaquete (o 0 si no hay paquete)
+                0,             // idRuta (o 0 si no hay ruta)
+                ReservaEstado.Confirmada,
+                2000,          // totalPago
+                Date.valueOf("2024-11-05"),    // fechaInicio
+                Date.valueOf("2024-11-05"),    // fechaFin
+
+                1,             // idVuelo
+
+                2              // cantidadAsientos
+        )));
         return "index";
     }
 

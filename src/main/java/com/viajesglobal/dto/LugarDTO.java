@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DestinoDTO {
+public class LugarDTO {
     private int idDestino;
     private String nombre;
     private String pais;

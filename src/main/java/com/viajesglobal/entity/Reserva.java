@@ -42,11 +42,17 @@ public class Reserva {
     @Column(name = "total_pago")
     private long totalPago;
 
-    public Reserva(int idUsuario, int idPaquete, ReservaEstado estado, long totalPago) {
+    public Reserva(int idUsuario, int idPaquete,int idRuta ,ReservaEstado estado, long totalPago,Date fechaInicio, Date fechaFin,int idVuelo,int cantidadAiento) {
         this.idUsuario = idUsuario;
         this.idPaquete = idPaquete;
         this.estado = estado;
         this.totalPago = totalPago;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.idVuelo = idVuelo;
+        this.cantidadAiento = cantidadAiento;
+        this.idRuta = idRuta;
     }
+
 
 }

@@ -26,6 +26,8 @@ public class Usuario {
     @Column(name = "preferencia_notificacion")
     private TipoNotificacion preferenciaNotificacion;
 
+    private int cedula;
+
 
 
 }

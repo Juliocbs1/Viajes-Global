@@ -20,4 +20,6 @@ public class UsuarioDTO {
 
     private NotificacionEstado preferenciaNotificacion;
 
+    private int cedula;
+
 }
