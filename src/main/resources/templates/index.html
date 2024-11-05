@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViajesGlobal</title>
+    <!-- Archivos de estilo -->
+    <link rel="stylesheet" href="./CSS/index.css">
+</head>
+<body>
+
+<!-- Contenedor principal de la página -->
+<div class="page-container">
+    
+    <!-- Barra de navegación fija -->
+    <nav class="navbar">
+        <div class="container">
+            <button class="menu-icon" id="menuIcon">☰</button>
+            <!-- Logo de la empresa -->
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.8 12.9l-2.4.6l-1.075-.8q-.075-.05-.4-.1l-.125.05q-.225.05-.325.263t.025.412l1.15 2q.1.15.25.213t.325.012l8.525-2.25q.375-.1.563-.463t.087-.737t-.437-.562t-.713-.088l-2.45.65l-3.725-3.5q-.125-.125-.3-.162t-.35.012l-.125.025q-.35.075-.488.4t.038.625zM4 20q-.825 0-1.412-.587T2 18v-3.375q0-.275.175-.475t.45-.25q.6-.2.988-.725T4 12t-.387-1.175t-.988-.725q-.275-.05-.45-.25T2 9.375V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20z"/></svg>
+                    ViajesGlobal
+                </a>
+            </div>
+            <!-- Enlaces de navegación -->
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="nav-item" id="reservarLink">Reservar</a>
+                <a href="#" class="nav-item" id="offersLink">Ofertas y destinos</a>
+                <a href="#" class="nav-item" id="miReservaLink">Mi reserva</a>
+                <a href="#" class="nav-item" id="ayudaLink">Ayuda</a>
+                <a href="#" class="nav-item" id="lealtadLink">Servicios Adicionales</a>
+            </div>
+            <!-- Botón de cuenta -->
+            <button class="account-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0a4.5 4.5 0 0 1-9 0M3.751 20.105a8.25 8.25 0 0 1 16.498 0a.75.75 0 0 1-.437.695A18.7 18.7 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695" clip-rule="evenodd"/></svg>
+                <span>Mi cuenta</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Contenido principal con scroll -->
+    <main id="main-content">
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Aquí se coloca el contenedor de búsqueda -->
+        <div class="search-container">
+            <div class="extra-options">
+                <a href="#" class="extra-option">
+                    Hoteles
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                    </svg>
+                </a>
+                <a href="#" class="extra-option">
+                    Autos
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="trip-type">
+                <label class="trip-option active">
+                    <span class="radio-custom"></span>
+                    Ida y vuelta
+                </label>
+                <label class="trip-option">
+                    <span class="radio-custom"></span>
+                    Solo ida
+                </label>
+            </div>
+
+            <div class="search-form">
+                <div class="input-group origin">
+                    <label>Origen</label>
+                    <input type="text" class="input-field" placeholder="Seleccionar origen" />
+                </div>
+                
+                <div class="input-group destination">
+                    <label>Destino</label>
+                    <input type="text" class="input-field" placeholder="Seleccionar destino" />
+                </div>
+
+                <div class="input-group">
+                    <label>Ida</label>
+                    <div class="date-input">
+                        <span class="calendar-icon">📅</span>
+                        <input type="date" class="input-field" value="2024-10-26" />
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Vuelta</label>
+                    <div class="date-input">
+                        <span class="calendar-icon">📅</span>
+                        <input type="date" class="input-field" value="2024-10-29" />
+                    </div>
+                </div>
+
+                <div class="passengers-select">
+                    <input type="text" class="input-field" value="1 pasajero" readonly />
+                    <div class="passengers-dropdown">
+                        <div class="passenger-control">
+                            <span>Pasajeros</span>
+                            <div>
+                                <button type="button" class="decrease-btn">−</button>
+                                <span class="passenger-count">1</span>
+                                <button type="button" class="increase-btn">+</button>
+                            </div>
+                        </div>
+                        <button type="button" class="confirm-btn">Confirmar</button>
+                    </div>
+                </div>
+                
+
+                <button class="search-btn">Buscar</button>
+            </div>
+        </div>
+        <!-- Fin del contenedor de búsqueda -->
+
+        <div class="menu-container" id="menuContainer">
+            <!-- Sección Reservar -->
+            <div id="reservarSection" class="hidden-section">
+                <h2>Reservar</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Reservar vuelo <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Reservar hotel <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Paquetes completos <span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Nueva ruta!</span>
+                                <h3>DESCUBRE LAS MARAVILLAS DE TULUM</h3>
+                                <p>Vuela a partir de diciembre de 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección Ofertas y Destinos -->
+            <div id="offersSection" class="hidden-section">
+                <h2>Ofertas y Destinos</h2>
+                <div class="offer-grid">
+                    <!-- Lista de ofertas -->
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Ofertas de vuelos <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Ofertas de hoteles <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Ofertas de paquetes <span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Nueva ruta!</span>
+                                <h3>DESCUBRE LAS MARAVILLAS DE TULUM</h3>
+                                <p>Vuela a partir de diciembre de 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Mi Reserva -->
+            <div id="miReservaSection" class="hidden-section">
+                <h2>Mi Reserva</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Consultar reserva <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Cambiar reserva <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Cancelar reserva <span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Nueva ruta!</span>
+                                <h3>DESCUBRE LAS MARAVILLAS DE TULUM</h3>
+                                <p>Vuela a partir de diciembre de 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Ayuda -->
+            <div id="ayudaSection" class="hidden-section">
+                <h2>Ayuda</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Preguntas frecuentes <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Atención al cliente <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Política de equipaje <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Opción 4 <span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Nueva ruta!</span>
+                                <h3>DESCUBRE LAS MARAVILLAS DE TULUM</h3>
+                                <p>Vuela a partir de diciembre de 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Programa de Lealtad -->
+            <div id="lealtadSection" class="hidden-section">
+                <h2>Servicios Adicionales</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Mi cuenta <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Beneficios <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Canjea puntos <span class="arrow-icon">➔</span></a>
+                            <a href="#" class="offer-item">Opción 4 <span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <span class="promo-tag">¡Nueva ruta!</span>
+                                <h3>DESCUBRE LAS MARAVILLAS DE TULUM</h3>
+                                <p>Vuela a partir de diciembre de 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer de la página -->
+    <footer>
+        <div class="footer-section">
+            <div class="container">
+                <!-- Izquierda: Quejas y Reclamos -->
+                <div class="footer-left">
+                    <h3>QUEJAS Y RECLAMOS</h3>
+                    <p>Haznos saber cualquier inconveniente o problema. Estamos aquí para ayudarte.</p>
+                    <div class="footer-form">
+                        <input type="email" placeholder="Escribe tu correo aquí">
+                        <button>Enviar</button>
+                    </div>
+                </div>
+                <!-- Derecha: Paga Seguro -->
+                <div class="footer-right">
+                    <h3>Paga Seguro</h3>
+                    <div class="secure-section">
+                        <img src="./IMAGENES/SECUREPAY.svg" alt="SSL Secure">
+                        <p>Paga seguro con nuestros medios de pago.</p>
+                    </div>
+                    <div class="payment-methods">
+                        <img src="./IMAGENES/visa.svg" alt="Visa">
+                        <img src="./IMAGENES/marstercard.svg" alt="MasterCard">
+                        <img src="./IMAGENES/american.svg" alt="American Express">
+                        <img src="./IMAGENES/Dinners CLub.svg" alt="Diners Club">
+                        <img src="./IMAGENES/JCB.svg" alt="JCB">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Menú móvil -->
+<div class="fullscreen-menu" id="fullscreenMenu">
+    <div class="menu-content">
+        <a href="#" class="menu-item">Reservar</a>
+        <a href="#" class="menu-item">Ofertas y destinos</a>
+        <a href="#" class="menu-item">Mi reserva</a>
+        <a href="#" class="menu-item">Ayuda</a>
+        <a href="#" class="menu-item">Programa de lealtad</a>
+    </div>
+</div>
+
+<!-- Modal de Login y Registro -->
+<div class="login-modal" id="loginModal">
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Iniciar sesión</h2>
+            <button class="close-login" id="closeLogin">×</button>
+        </div>
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Cedula</label>
+                <input type="number" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-btn">Iniciar sesión</button>
+        </form>
+        <div class="login-footer">
+            <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+        </div>
+    </div>
+    <!-- Formulario de Registro Actualizado -->
+    <div class="register-container" id="registerContainer" style="display:none;">
+        <div class="login-header">
+            <h2>Registro</h2>
+            <button class="close-login" id="closeRegister">×</button>
+        </div>
+    
+        <!-- Contenedor con scroll independiente para los campos -->
+        <div class="form-content">
+            <div class="form-group">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Contraseña</label>
+                <input type="password" id="newPassword" name="newPassword" required>
+            </div>
+            <div class="form-group notification-group">
+                <label class="notification-label">Preferencias de Notificación</label>
+                <div class="checkbox-container">
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="pushNotif" name="notification[]" value="PUSH">
+                        <label for="pushNotif">
+                            <span class="checkbox-custom"></span>
+                            PUSH
+                        </label>
+                    </div>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="emailNotif" name="notification[]" value="CORREO">
+                        <label for="emailNotif">
+                            <span class="checkbox-custom"></span>
+                            CORREO
+                        </label>
+                    </div>
+                    <div class="custom-checkbox">
+                        <input type="checkbox" id="smsNotif" name="notification[]" value="SMS">
+                        <label for="smsNotif">
+                            <span class="checkbox-custom"></span>
+                            SMS
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="cedula">Cédula</label>
+                <input type="text" id="cedula" name="cedula" required>
+            </div>
+        </div>
+    
+        <!-- Botón de envío permanece fuera del contenedor de desplazamiento -->
+        <button type="submit" class="login-btn" form="registerForm">Registrar</button>
+        <div class="login-footer">
+            <p>¿Ya tienes una cuenta? <a href="#" id="backToLogin">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>
+
+<!-- Archivo JavaScript -->
+<script src="./JS/index.js"></script>
+
+</body>
+</html>

@@ -4,10 +4,12 @@ import com.viajesglobal.dto.ReservaDTO;
 import com.viajesglobal.estado.ReservaEstado;
 import com.viajesglobal.service.ReservaDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import java.sql.Date;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.List;
 public class ReservaController {
     @Autowired
     ReservaDAO reservaDAO;
+
+
 
     @GetMapping("/save-reserva")
     public String saveReserva(){
@@ -28,9 +32,7 @@ public class ReservaController {
                 2000,          // totalPago
                 Date.valueOf("2024-11-05"),    // fechaInicio
                 Date.valueOf("2024-11-05"),    // fechaFin
-
                 1,             // idVuelo
-
                 2              // cantidadAsientos
         )));
 
@@ -47,9 +49,7 @@ public class ReservaController {
                 2000,          // totalPago
                 Date.valueOf("2024-11-05"),    // fechaInicio
                 Date.valueOf("2024-11-05"),    // fechaFin
-
                 1,             // idVuelo
-
                 2              // cantidadAsientos
         )));
         return "index";
