@@ -6,7 +6,7 @@ import com.twilio.rest.api.v2010.account.Message;
 public class MensajesSMS {
 
     public static final String ACCOUNT_SID = "AC18fbe1985dfe6ec9335c3fbfba24d857";
-    public static final String AUTH_TOKEN = "8ad3e19b8aeb92f9dd899baac4759307";
+    public static final String AUTH_TOKEN = "53ca067a1f3fd027685c7e0e77bf78f2";
 
     public String enviarMensaje(String mensaje, String numero) {
         if (numero != null && mensaje != null) {
