@@ -1,7 +1,6 @@
 package com.viajesglobal.method;
 
 import com.viajesglobal.dto.ReservaDTO;
-
 import java.util.List;
 
 public interface ReservaMethod {

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymelead.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Respuesta</title>
+    <style type="text/css">
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 18px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        caption {
+            caption-side: top;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+    </style>
+</head>
+<body>
+<h1 style="color: red; font-size: 25px;"> Bienvenidos </h1>
+<p style="color:orange; font-size: 20px;" th:text="${mensaje}"></p>
+<table>
+    <caption>Informacion</caption>
+    <thead>
+    <tr>
+        <th>Cedula</th>
+        <th>Nombre</th>
+        <th>Telefono</th>
+        <th>Contraseña</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${usuarioid}"></td>
+        <td th:text="${usuaarionombre}"></td>
+        <td th:text="${usuarioteleono}"></td>
+        <td th:text="${usuariocontrasena}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

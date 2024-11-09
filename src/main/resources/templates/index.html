@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -311,6 +311,8 @@
             <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
         </div>
     </div>
+
+    <form th:action="@{/save-usuario}" th:object="${usuarioDTO}" method="post" id="registrousuario">
     <!-- Formulario de Registro Actualizado -->
     <div class="register-container" id="registerContainer" style="display:none;">
         <div class="login-header">
@@ -322,39 +324,39 @@
         <div class="form-content">
             <div class="form-group">
                 <label for="name">Nombre</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" th:field="*{nombre}" required>
             </div>
             <div class="form-group">
                 <label for="email">Correo</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email" id="email" name="email" th:field="*{correo}" required>
             </div>
             <div class="form-group">
                 <label for="phone">Teléfono</label>
-                <input type="tel" id="phone" name="phone" required>
+                <input type="tel" id="phone" name="phone" th:field="*{telefono}" required>
             </div>
             <div class="form-group">
                 <label for="newPassword">Contraseña</label>
-                <input type="password" id="newPassword" name="newPassword" required>
+                <input type="password" id="newPassword" name="newPassword" th:field="*{contrasena}" required>
             </div>
-            <div class="form-group notification-group">
+<!--            <div class="form-group notification-group">
                 <label class="notification-label">Preferencias de Notificación</label>
                 <div class="checkbox-container">
                     <div class="custom-checkbox">
-                        <input type="checkbox" id="pushNotif" name="notification[]" value="PUSH">
+                        <input type="checkbox" id="pushNotif" name="notification[]" value="PUSH" th:field="*{preferenciaNotificacion}">
                         <label for="pushNotif">
                             <span class="checkbox-custom"></span>
                             PUSH
                         </label>
                     </div>
                     <div class="custom-checkbox">
-                        <input type="checkbox" id="emailNotif" name="notification[]" value="CORREO">
+                        <input type="checkbox" id="emailNotif" name="notification[]" value="CORREO" th:field="*{preferenciaNotificacion}">
                         <label for="emailNotif">
                             <span class="checkbox-custom"></span>
                             CORREO
                         </label>
                     </div>
                     <div class="custom-checkbox">
-                        <input type="checkbox" id="smsNotif" name="notification[]" value="SMS">
+                        <input type="checkbox" id="smsNotif" name="notification[]" value="SMS" th:field="*{preferenciaNotificacion}">
                         <label for="smsNotif">
                             <span class="checkbox-custom"></span>
                             SMS
@@ -362,18 +364,38 @@
                     </div>
                 </div>
             </div>
+            -->
+            <div class="form-group notification-group">
+                <label class="notification-label">Preferencias de Notificación</label>
+                <div class="radio-container">
+                    <div class="custom-radio">
+                        <input type="radio" id="pushNotif" name="preferenciaNotificacion" value="Push" th:field="*{preferenciaNotificacion}">
+                        <label for="pushNotif">PUSH</label>
+                    </div>
+                    <div class="custom-radio">
+                        <input type="radio" id="emailNotif" name="preferenciaNotificacion" value="Correo" th:field="*{preferenciaNotificacion}">
+                        <label for="emailNotif">CORREO</label>
+                    </div>
+                    <div class="custom-radio">
+                        <input type="radio" id="smsNotif" name="preferenciaNotificacion" value="SMS" th:field="*{preferenciaNotificacion}">
+                        <label for="smsNotif">SMS</label>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="cedula">Cédula</label>
-                <input type="text" id="cedula" name="cedula" required>
+                <input type="text" id="cedula" name="cedula" th:field="*{idUsuario}" required>
             </div>
         </div>
     
         <!-- Botón de envío permanece fuera del contenedor de desplazamiento -->
-        <button type="submit" class="login-btn" form="registerForm">Registrar</button>
+        <button type="submit" class="login-btn" form="registrousuario">Registrar</button>
         <div class="login-footer">
             <p>¿Ya tienes una cuenta? <a href="#" id="backToLogin">Inicia sesión aquí</a></p>
         </div>
     </div>
+    </form>
 </div>
 
 <!-- Archivo JavaScript -->

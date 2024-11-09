@@ -1,6 +1,5 @@
 package com.viajesglobal.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PaqueteServicioDTO {
+public class EmailDTO {
 
-    private int idPaqueteServicio;
-    private int idPaquete;
-    private int idServicio;
-    private int cantidad;
+    private String destinatario;
+    private String asunto;
+    private String mensaje;
 }

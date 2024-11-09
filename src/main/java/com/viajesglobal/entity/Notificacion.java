@@ -24,7 +24,6 @@ public class Notificacion {
 
     private String contenido;
 
-
     private NotificacionEstado estado;
 
 

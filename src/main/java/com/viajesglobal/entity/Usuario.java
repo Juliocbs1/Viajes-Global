@@ -1,10 +1,7 @@
 package com.viajesglobal.entity;
 
 import com.viajesglobal.estado.TipoNotificacion;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +20,10 @@ public class Usuario {
     private String correo;
     private String telefono;
     private String contrasena;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "preferencia_notificacion")
     private TipoNotificacion preferenciaNotificacion;
-
-    private int cedula;
-
 
 
 }

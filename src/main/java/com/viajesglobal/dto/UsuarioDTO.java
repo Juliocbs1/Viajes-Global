@@ -2,6 +2,7 @@ package com.viajesglobal.dto;
 
 
 import com.viajesglobal.estado.NotificacionEstado;
+import com.viajesglobal.estado.TipoNotificacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,7 @@ public class UsuarioDTO {
     private String telefono;
     private String contrasena;
 
-    private NotificacionEstado preferenciaNotificacion;
+    private TipoNotificacion preferenciaNotificacion;
 
-    private int cedula;
 
 }
