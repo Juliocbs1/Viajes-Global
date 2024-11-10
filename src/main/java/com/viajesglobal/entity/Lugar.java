@@ -21,4 +21,10 @@ public class Lugar {
     private String pais;
     private  String ciudad;
 
+    public Lugar( String nombre, String pais, String ciudad) {
+        this.nombre=nombre;
+        this.pais=pais;
+        this.ciudad=ciudad;
+    }
+
 }

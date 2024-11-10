@@ -2,24 +2,25 @@ package com.viajesglobal.controller;
 
 
 import com.viajesglobal.dto.EmailDTO;
+import com.viajesglobal.dto.LugarDTO;
 import com.viajesglobal.dto.UsuarioDTO;
 import com.viajesglobal.estado.MensajesSMS;
 import com.viajesglobal.estado.TipoNotificacion;
 import com.viajesglobal.service.CustomEnumEditor;
 import com.viajesglobal.service.EmailService;
+import com.viajesglobal.service.LugarDAO;
 import com.viajesglobal.service.RegistroDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Controller
+@RequestMapping("/usuario")
 public class RegistroController {
 
     @Autowired
@@ -27,9 +28,18 @@ public class RegistroController {
     @Autowired
     private EmailService emailService;
 
-    @RequestMapping("/usuario")
+    @Autowired
+    private LugarDAO lugarDAO;
+
+
+
+
+    @GetMapping
     public String mostrarFormulario(Model model) {
+        List<LugarDTO> lugares = lugarDAO.getLugars();
         model.addAttribute("usuarioDTO", new UsuarioDTO());
+        model.addAttribute("lugares", lugares);
+
         return "index";
     }
 

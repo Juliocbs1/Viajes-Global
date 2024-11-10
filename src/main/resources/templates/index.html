@@ -73,13 +73,27 @@
 
             <div class="search-form">
                 <div class="input-group origin">
-                    <label>Origen</label>
-                    <input type="text" class="input-field" placeholder="Seleccionar origen" />
+                    <label for="origin-select">Origen</label>
+                    <select id="origin-select" name="origen" class="input-field">
+                        <option value="">Seleccionar origen</option>
+                        <!-- Itera sobre la lista de lugares y genera opciones -->
+                        <option th:each="lugarDTO : ${lugares}"
+                                th:value="${lugarDTO.pais}"
+                                th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}">
+                        </option>
+                    </select>
                 </div>
-                
+
                 <div class="input-group destination">
-                    <label>Destino</label>
-                    <input type="text" class="input-field" placeholder="Seleccionar destino" />
+                    <label for="destination-select">Destino</label>
+                    <select id="destination-select" name="destino" class="input-field">
+                        <option value="">Seleccionar destino</option>
+                        <!-- Reutiliza la lista de lugares para el destino -->
+                        <option th:each="lugarDTO : ${lugares}"
+                                th:value="${lugarDTO.pais}"
+                                th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}">
+                        </option>
+                    </select>
                 </div>
 
                 <div class="input-group">
@@ -112,7 +126,7 @@
                         <button type="button" class="confirm-btn">Confirmar</button>
                     </div>
                 </div>
-                
+
 
                 <button class="search-btn">Buscar</button>
             </div>
@@ -308,7 +322,7 @@
             <button type="submit" class="login-btn">Iniciar sesión</button>
         </form>
         <div class="login-footer">
-            <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+            <p>¿No tienes una cuenta? <a href="/usuario"  id="showRegister">Regístrate aquí</a></p>
         </div>
     </div>
 
