@@ -59,78 +59,77 @@
                     </svg>
                 </a>
             </div>
-            
-            <div class="trip-type">
-                <label class="trip-option active">
-                    <span class="radio-custom"></span>
-                    Ida y vuelta
-                </label>
-                <label class="trip-option">
-                    <span class="radio-custom"></span>
-                    Solo ida
-                </label>
-            </div>
 
-            <div class="search-form">
-                <div class="input-group origin">
-                    <label for="origin-select">Origen</label>
-                    <select id="origin-select" name="origen" class="input-field">
-                        <option value="">Seleccionar origen</option>
-                        <!-- Itera sobre la lista de lugares y genera opciones -->
-                        <option th:each="lugarDTO : ${lugares}"
-                                th:value="${lugarDTO.pais}"
-                                th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}">
-                        </option>
-                    </select>
+            <form th:action="@{/reserva/buscar-vuelos}" method="post">
+                <div class="trip-type">
+                    <label class="trip-option active">
+                        <input type="radio" name="tipoViaje" value="idaYvuelta" class="radio-custom" checked />
+                        Ida y vuelta
+                    </label>
+                    <label class="trip-option">
+                        <input type="radio" name="tipoViaje" value="soloIda" class="radio-custom" />
+                        Solo ida
+                    </label>
                 </div>
 
-                <div class="input-group destination">
-                    <label for="destination-select">Destino</label>
-                    <select id="destination-select" name="destino" class="input-field">
-                        <option value="">Seleccionar destino</option>
-                        <!-- Reutiliza la lista de lugares para el destino -->
-                        <option th:each="lugarDTO : ${lugares}"
-                                th:value="${lugarDTO.pais}"
-                                th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}">
-                        </option>
-                    </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Ida</label>
-                    <div class="date-input">
-                        <span class="calendar-icon">📅</span>
-                        <input type="date" class="input-field" value="2024-10-26" />
+                <div class="search-form">
+                    <div class="input-group origin">
+                        <label for="origin-select">Origen</label>
+                        <select id="origin-select" name="origen" class="input-field">
+                            <option value="">Seleccionar origen</option>
+                            <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
+                        </select>
                     </div>
-                </div>
 
-                <div class="input-group">
-                    <label>Vuelta</label>
-                    <div class="date-input">
-                        <span class="calendar-icon">📅</span>
-                        <input type="date" class="input-field" value="2024-10-29" />
+                    <div class="input-group destination">
+                        <label for="destination-select">Destino</label>
+                        <select id="destination-select" name="destino" class="input-field">
+                            <option value="">Seleccionar destino</option>
+                            <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
+                        </select>
                     </div>
-                </div>
 
-                <div class="passengers-select">
-                    <input type="text" class="input-field" value="1 pasajero" readonly />
-                    <div class="passengers-dropdown">
-                        <div class="passenger-control">
-                            <span>Pasajeros</span>
-                            <div>
-                                <button type="button" class="decrease-btn">−</button>
-                                <span class="passenger-count">1</span>
-                                <button type="button" class="increase-btn">+</button>
-                            </div>
+                    <div class="input-group">
+                        <label>Ida</label>
+                        <div class="date-input">
+                            <span class="calendar-icon">📅</span>
+                            <input type="date" name="fechaIda" class="input-field" value="2024-10-26" />
                         </div>
-                        <button type="button" class="confirm-btn">Confirmar</button>
                     </div>
+
+                    <div class="input-group">
+                        <label>Vuelta</label>
+                        <div class="date-input">
+                            <span class="calendar-icon">📅</span>
+                            <input type="date" name="fechaVuelta" class="input-field" value="2024-10-29" />
+                        </div>
+                    </div>
+
+
+
+                    <input type="hidden" id="cantidadPasajeros" name="cantidadPasajeros" value="1" />
+
+                    <div class="passengers-select">
+                        <input type="text" class="input-field" value="1 pasajero" readonly />
+                        <div class="passengers-dropdown">
+                            <div class="passenger-control">
+                                <span>Pasajeros</span>
+                                <div>
+                                    <button type="button" class="decrease-btn">−</button>
+                                    <span class="passenger-count">1</span>
+                                    <button type="button" class="increase-btn">+</button>
+                                </div>
+                            </div>
+                            <button type="submit" class="confirm-btn">Confirmar</button>
+                        </div>
+                    </div>
+
+
+                    <button class="search-btn">Buscar</button>
                 </div>
-
-
-                <button class="search-btn">Buscar</button>
-            </div>
+            </form>
         </div>
+
         <!-- Fin del contenedor de búsqueda -->
 
         <div class="menu-container" id="menuContainer">
@@ -414,6 +413,29 @@
 
 <!-- Archivo JavaScript -->
 <script src="./JS/index.js"></script>
+
+<script>
+    // Variables para manejar la cantidad de pasajeros
+    let passengerCount = 1;
+    const passengerCountDisplay = document.querySelector('.passenger-count');
+    const cantidadPasajerosField = document.getElementById('cantidadPasajeros');
+
+    // Aumentar pasajeros
+    document.querySelector('.increase-btn').addEventListener('click', function () {
+        passengerCount++; // Aumentamos la cantidad
+        passengerCountDisplay.textContent = passengerCount; // Actualizamos el valor visual
+        cantidadPasajerosField.value = passengerCount; // Actualizamos el valor del campo oculto
+    });
+
+    // Disminuir pasajeros
+    document.querySelector('.decrease-btn').addEventListener('click', function () {
+        if (passengerCount > 1) { // Evitamos que el número de pasajeros sea menor que 1
+            passengerCount--; // Reducimos la cantidad
+            passengerCountDisplay.textContent = passengerCount; // Actualizamos el valor visual
+            cantidadPasajerosField.value = passengerCount; // Actualizamos el valor del campo oculto
+        }
+    });
+</script>
 
 </body>
 </html>
