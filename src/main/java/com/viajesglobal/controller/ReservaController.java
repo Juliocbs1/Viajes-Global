@@ -19,7 +19,7 @@ public class ReservaController {
     @Autowired
     private LugarDAO lugarDAO;
 
-
+    //envio de datos a reserva.html
     @PostMapping("/buscar-vuelos")
     public String buscarVuelos(
             @RequestParam String tipoViaje, // Ida y vuelta o solo ida
@@ -33,12 +33,14 @@ public class ReservaController {
         LugarDTO origenLugar = lugarDAO.getLugar(origen);
         LugarDTO destinoLugar = lugarDAO.getLugar(destino);
         if(origenLugar == null && destinoLugar == null) {
+
             return "redirect:/usuario";
         }else if(origenLugar == destinoLugar) {
+
             return "redirect:/usuario";
         }else {
 
-            // Asegúrate de enviar los datos correctos al modelo para que Thymeleaf los pueda procesar
+
             model.addAttribute("tipoViaje", tipoViaje);
             model.addAttribute("origenCiudad", origenLugar.getCiudad());
             model.addAttribute("origenPais",origenLugar.getPais() );
