@@ -39,12 +39,26 @@ public class RegistroDAO implements RegistroMethod {
 
     @Override
     public String updateUsuario(Long idUsario, UsuarioDTO usuarioDTO) {
-        return "";
+        Optional<Usuario> usuario = usuarioRepository.findById(idUsario);
+        if (usuario.isPresent()) {
+            Usuario usuarioAux = usuario.get();
+            usuarioAux.setNombre(usuarioDTO.getNombre());
+            usuarioAux.setCorreo(usuarioDTO.getCorreo());
+            usuarioAux.setTelefono(usuarioDTO.getTelefono());
+            usuarioAux.setContrasena(usuarioDTO.getContrasena());
+            usuarioRepository.save(usuarioAux);
+            return "Usuario Actualizado!";
+        }
+        return "Error al actualizar";
     }
 
     @Override
     public String deleteUsuario(Long idUsuario) {
-        return "";
+        if (usuarioRepository.existsById(idUsuario)) {
+            usuarioRepository.deleteById(idUsuario);
+            return "Usuario Eliminado!";
+        }
+        return "Error al eliminar";
     }
 
     @Override

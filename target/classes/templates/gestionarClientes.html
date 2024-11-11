@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Clientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        .action-buttons button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn { background-color: #007bff; }
+        .delete-btn { background-color: #dc3545; }
+        .update-btn { background-color: #28a745; }
+
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 2px solid #ccc;
+            padding: 20px;
+            z-index: 1000;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-popup h3 {
+            margin-top: 0;
+        }
+
+        .form-popup label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .form-popup input[type="text"],
+        .form-popup input[type="email"],
+        .form-popup input[type="password"],
+        .form-popup input[type="tel"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-popup .radio-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-popup .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-popup .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button class="button" onclick="openForm()">Agregar Nuevo Cliente</button>
+    <input type="text" placeholder="Buscar por cualquier dato..." id="searchInput" onkeyup="searchTable()">
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+        <tr>
+            <th>Acción</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>Contraseña</th>
+            <th>Preferencia Notificación</th>
+            <th>Cédula</th>
+        </tr>
+        </thead>
+        <tbody id="tableBody">
+        <tr th:each="usuario : ${usuarios}">
+            <td class="action-buttons">
+                <a><button class="edit-btn">Editar</button></a>
+                <a th:href="@{/borrarusuario/{id}(id=${usuario.idUsuario})}"><button class="delete-btn">Eliminar</button></a>
+            </td>
+            <td th:text="${usuario.nombre}"></td>
+            <td th:text="${usuario.correo}"></td>
+            <td th:text="${usuario.telefono}"></td>
+            <td th:text="${usuario.contrasena}"></td>
+            <td th:text="${usuario.preferenciaNotificacion}"></td>
+            <td th:text="${usuario.idUsuario}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeForm()"></div>
+<div class="form-popup" id="formPopup">
+    <form th:action="@{/guardar-usuario}" th:object="${usuarioDTO}" method="post">
+        <h3>Agregar Cliente</h3>
+
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="nombre" th:field="*{nombre}" required>
+
+        <label for="email">Correo</label>
+        <input type="email" id="email" name="correo" th:field="*{correo}" required>
+
+        <label for="phone">Teléfono</label>
+        <input type="tel" id="phone" name="telefono" th:field="*{telefono}" required>
+
+        <label for="newPassword">Contraseña</label>
+        <input type="password" id="newPassword" name="contrasena" th:field="*{contrasena}" required>
+
+        <label>Preferencias de Notificación:</label>
+        <div class="radio-group">
+            <input type="radio" id="pushNotif" th:field="*{preferenciaNotificacion}" value="PUSH">
+            <label for="pushNotif">PUSH</label>
+
+            <input type="radio" id="emailNotif" th:field="*{preferenciaNotificacion}" value="CORREO">
+            <label for="emailNotif">CORREO</label>
+
+            <input type="radio" id="smsNotif" th:field="*{preferenciaNotificacion}" value="SMS">
+            <label for="smsNotif">SMS</label>
+        </div>
+
+        <label for="cedula">Cédula</label>
+        <input type="text" id="cedula" name="idUsuario" th:field="*{idUsuario}" required>
+
+        <button type="submit" class="submit-btn">Guardar</button>
+    </form>
+</div>
+
+
+<script>
+    function openForm() {
+        document.getElementById("formPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("formPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    function submitForm() {
+        const nombre = document.getElementById("nombre").value;
+        const correo = document.getElementById("correo").value;
+        const telefono = document.getElementById("telefono").value;
+        const contrasena = document.getElementById("contrasena").value;
+        const notificacion = document.querySelector('input[name="notificacion"]:checked').value;
+        const cedula = document.getElementById("cedula").value;
+
+        const tableBody = document.getElementById("tableBody");
+        const newRow = document.createElement("tr");
+
+        newRow.innerHTML = `
+            <td class="action-buttons">
+                <button class="edit-btn">Editar</button>
+                <button class="delete-btn">Eliminar</button>
+                <button class="update-btn">Actualizar</button>
+            </td>
+            <td>${nombre}</td>
+            <td>${correo}</td>
+            <td>${telefono}</td>
+            <td>********</td>
+            <td>${notificacion}</td>
+            <td>${cedula}</td>
+        `;
+
+        tableBody.appendChild(newRow);
+
+        document.getElementById("nombre").value = "";
+        document.getElementById("correo").value = "";
+        document.getElementById("telefono").value = "";
+        document.getElementById("contrasena").value = "";
+        document.getElementById("cedula").value = "";
+        document.querySelector('input[name="notificacion"]:checked').checked = false;
+        closeForm();
+    }
+
+    function searchTable() {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const tableRows = document.querySelectorAll("#tableBody tr");
+
+        tableRows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(searchInput) ? "" : "none";
+        });
+    }
+</script>
+
+</body>
+</html>

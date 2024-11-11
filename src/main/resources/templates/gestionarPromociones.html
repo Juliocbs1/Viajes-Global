@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Promociones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto; /* Para hacer que la tabla sea desplazable en pantallas pequeñas */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            min-width: 600px; /* Establecer un ancho mínimo para la tabla */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            white-space: nowrap; /* Evitar que el contenido se desborde */
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Permitir que los botones se envuelvan en varias filas si es necesario */
+            gap: 5px;
+            justify-content: center; /* Centrar horizontalmente los botones */
+            align-items: center;
+        }
+
+        .action-buttons button {
+            flex: 1 1 auto; /* Permitir que los botones se redimensionen según el espacio disponible */
+            min-width: 70px; /* Ancho mínimo para los botones */
+            margin: 3px 0; /* Espaciado vertical entre botones cuando se envuelven */
+            padding: 5px 10px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn { background-color: #007bff; }
+        .delete-btn { background-color: #dc3545; }
+        .update-btn { background-color: #28a745; }
+
+        .form-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 2px solid #ccc;
+            padding: 20px;
+            z-index: 1000;
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-popup h3 {
+            margin-top: 0;
+        }
+
+        .form-popup label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .form-popup input[type="text"],
+        .form-popup input[type="number"],
+        .form-popup input[type="date"],
+        .form-popup input[type="email"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-popup .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-popup .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button class="button" onclick="openForm()">Agregar Nueva Promoción</button>
+    <input type="text" placeholder="Buscar por cualquier dato..." id="searchInput" onkeyup="searchTable()">
+</div>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Acción</th>
+                <th>Nombre de Promoción</th>
+                <th>Descripción</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Fin</th>
+                <th>Descuento (%)</th>
+                <th>Condiciones</th>
+                <th>Código Promocional</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr>
+                <td class="action-buttons">
+                    <button class="edit-btn">Editar</button>
+                    <button class="delete-btn">Eliminar</button>
+                    <button class="update-btn">Actualizar</button>
+                </td>
+                <td>Promoción de Verano</td>
+                <td>Descuento especial en verano</td>
+                <td>2024-06-01</td>
+                <td>2024-09-01</td>
+                <td>15</td>
+                <td>Aplica en productos seleccionados</td>
+                <td>VERANO2024</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeForm()"></div>
+
+<div class="form-popup" id="formPopup">
+    <h3>Agregar Promoción</h3>
+    <label for="nombre">Nombre de Promoción:</label>
+    <input type="text" id="nombre" required>
+
+    <label for="descripcion">Descripción:</label>
+    <input type="text" id="descripcion" required>
+
+    <label for="fecha_inicio">Fecha de Inicio:</label>
+    <input type="date" id="fecha_inicio" required>
+
+    <label for="fecha_fin">Fecha de Fin:</label>
+    <input type="date" id="fecha_fin" required>
+
+    <label for="descuento">Descuento (%):</label>
+    <input type="number" id="descuento" required>
+
+    <label for="condiciones">Condiciones:</label>
+    <input type="text" id="condiciones" required>
+
+    <label for="codigo">Código Promocional:</label>
+    <input type="text" id="codigo" required>
+
+    <button class="submit-btn" onclick="submitForm()">Guardar</button>
+</div>
+
+<script>
+    function openForm() {
+        document.getElementById("formPopup").style.display = "block";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeForm() {
+        document.getElementById("formPopup").style.display = "none";
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    function submitForm() {
+        const nombre = document.getElementById("nombre").value;
+        const descripcion = document.getElementById("descripcion").value;
+        const fechaInicio = document.getElementById("fecha_inicio").value;
+        const fechaFin = document.getElementById("fecha_fin").value;
+        const descuento = document.getElementById("descuento").value;
+        const condiciones = document.getElementById("condiciones").value;
+        const codigo = document.getElementById("codigo").value;
+
+        const tableBody = document.getElementById("tableBody");
+        const newRow = document.createElement("tr");
+
+        newRow.innerHTML = `
+            <td class="action-buttons">
+                <button class="edit-btn">Editar</button>
+                <button class="delete-btn">Eliminar</button>
+                <button class="update-btn">Actualizar</button>
+            </td>
+            <td>${nombre}</td>
+            <td>${descripcion}</td>
+            <td>${fechaInicio}</td>
+            <td>${fechaFin}</td>
+            <td>${descuento}</td>
+            <td>${condiciones}</td>
+            <td>${codigo}</td>
+        `;
+
+        tableBody.appendChild(newRow);
+
+        document.getElementById("nombre").value = "";
+        document.getElementById("descripcion").value = "";
+        document.getElementById("fecha_inicio").value = "";
+        document.getElementById("fecha_fin").value = "";
+        document.getElementById("descuento").value = "";
+        document.getElementById("condiciones").value = "";
+        document.getElementById("codigo").value = "";
+        closeForm();
+    }
+
+    function searchTable() {
+        const searchInput = document.getElementById("searchInput").value.toLowerCase();
+        const tableRows = document.querySelectorAll("#tableBody tr");
+
+        tableRows.forEach(row => {
+            const rowText = row.innerText.toLowerCase();
+            row.style.display = rowText.includes(searchInput) ? "" : "none";
+        });
+    }
+</script>
+
+</body>
+</html>
+
