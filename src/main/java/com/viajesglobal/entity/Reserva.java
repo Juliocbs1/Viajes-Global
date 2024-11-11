@@ -22,9 +22,6 @@ public class Reserva {
     private int idUsuario;
     @Column(name = "id_paquete")
     private int idPaquete;
-    @Column(name = "id_ruta")
-    private int idRuta;
-
     @Column(name = "fecha_inicio")
     private Date fechaInicio;
     @Column(name = "fecha_fin")
@@ -42,7 +39,7 @@ public class Reserva {
     @Column(name = "total_pago")
     private long totalPago;
 
-    public Reserva(int idUsuario, int idPaquete,int idRuta ,ReservaEstado estado, long totalPago,Date fechaInicio, Date fechaFin,int idVuelo,int cantidadAiento) {
+    public Reserva(int idUsuario, int idPaquete,ReservaEstado estado, long totalPago,Date fechaInicio, Date fechaFin,int idVuelo,int cantidadAiento) {
         this.idUsuario = idUsuario;
         this.idPaquete = idPaquete;
         this.estado = estado;
@@ -51,7 +48,7 @@ public class Reserva {
         this.fechaFin = fechaFin;
         this.idVuelo = idVuelo;
         this.cantidadAiento = cantidadAiento;
-        this.idRuta = idRuta;
+
     }
 
 

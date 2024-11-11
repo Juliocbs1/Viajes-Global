@@ -19,7 +19,7 @@ public class ReservaDAO implements ReservaMethod {
 
     @Override
     public String saveReserva(ReservaDTO reservaDTO) {
-        Reserva reserva = new Reserva(reservaDTO.getIdUsuario(),reservaDTO.getIdPaquete(),reservaDTO.getIdRuta(),reservaDTO.getEstado(),reservaDTO.getTotalPago(),reservaDTO.getFechaInicio(),reservaDTO.getFechaFin(),reservaDTO.getIdVuelo(),reservaDTO.getCantidadAiento());
+        Reserva reserva = new Reserva(reservaDTO.getIdUsuario(),reservaDTO.getIdPaquete(),reservaDTO.getEstado(),reservaDTO.getTotalPago(),reservaDTO.getFechaInicio(),reservaDTO.getFechaFin(),reservaDTO.getIdVuelo(),reservaDTO.getCantidadAiento());
 
         try {
             reservaRepository.save(reserva);
@@ -67,7 +67,7 @@ public class ReservaDAO implements ReservaMethod {
         List<Reserva> reservas = reservaRepository.findAll();
         List<ReservaDTO> reservasDTO = new ArrayList<>();
         for(Reserva reserva : reservas) {
-            reservasDTO.add(new ReservaDTO(reserva.getIdUsuario(),reserva.getIdPaquete(),reserva.getIdRuta(),reserva.getEstado(),reserva.getTotalPago(),reserva.getFechaInicio(),reserva.getFechaFin(),reserva.getIdVuelo(),reserva.getCantidadAiento()));
+            reservasDTO.add(new ReservaDTO(reserva.getIdUsuario(),reserva.getIdPaquete(),reserva.getEstado(),reserva.getTotalPago(),reserva.getFechaInicio(),reserva.getFechaFin(),reserva.getIdVuelo(),reserva.getCantidadAiento()));
         }
         return reservasDTO;
     }

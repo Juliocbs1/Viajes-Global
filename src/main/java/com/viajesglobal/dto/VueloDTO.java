@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VueloDTO {
-    private int idVuelo;
+
 
     private int idRuta;
 
@@ -22,4 +22,6 @@ public class VueloDTO {
     private int asientosTotales;
 
     private int asientosDisponibles;
+
+    private long costoAsiento;
 }

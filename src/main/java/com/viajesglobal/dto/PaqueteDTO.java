@@ -14,6 +14,6 @@ public class PaqueteDTO {
     private String descripcion;
     private long precio;
     private int disponibilidad;
-    private int idDestino;
+    private int idVuelo;
 
 }
