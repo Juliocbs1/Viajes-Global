@@ -75,7 +75,7 @@
                 <div class="search-form">
                     <div class="input-group origin">
                         <label for="origin-select">Origen</label>
-                        <select id="origin-select" name="origen" class="input-field">
+                        <select id="origin-select" name="origen" class="input-field" required>
                             <option value="">Seleccionar origen</option>
                             <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
                         </select>
@@ -83,7 +83,7 @@
 
                     <div class="input-group destination">
                         <label for="destination-select">Destino</label>
-                        <select id="destination-select" name="destino" class="input-field">
+                        <select id="destination-select" name="destino" class="input-field" required>
                             <option value="">Seleccionar destino</option>
                             <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
                         </select>
@@ -93,7 +93,7 @@
                         <label>Ida</label>
                         <div class="date-input">
                             <span class="calendar-icon">📅</span>
-                            <input type="date" name="fechaIda" class="input-field" value="2024-10-26" />
+                            <input type="date" name="fechaIda" class="input-field" value="2024-10-26" required />
                         </div>
                     </div>
 

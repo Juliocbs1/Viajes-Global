@@ -138,9 +138,20 @@
   </div>
 
   <div class="summary-item">
-    <strong>Vuelos Disponibles:</strong>
+    <strong>Vuelos Disponibles Para ida:</strong>
     <ul>
-      <li th:each="vueloDTO : ${vuelosParaReserva}">
+      <li th:each="vueloDTO : ${vuelosDeIda}">
+        <p>  Asientos totales: <span th:text="${vueloDTO.asientosTotales}">
+        </span>, Asientos Disponibles: <span th:text="${vueloDTO.asientosDisponibles}"></span>, Fecha de salida: <span th:text="${vueloDTO.fechaSalida}"></span>
+          , Numero de vuelo: <span th:text="${vueloDTO.numeroVuelo}"></span> , Costo por asiento: <span th:text="${vueloDTO.costoAsiento}"></span></p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="summary-item">
+    <strong>Vuelos Disponibles Para Regreso:</strong>
+    <ul>
+      <li th:each="vueloDTO : ${vuelosDeRegreso}">
         <p>  Asientos totales: <span th:text="${vueloDTO.asientosTotales}">
         </span>, Asientos Disponibles: <span th:text="${vueloDTO.asientosDisponibles}"></span>, Fecha de salida: <span th:text="${vueloDTO.fechaSalida}"></span>
           , Numero de vuelo: <span th:text="${vueloDTO.numeroVuelo}"></span> , Costo por asiento: <span th:text="${vueloDTO.costoAsiento}"></span></p>
