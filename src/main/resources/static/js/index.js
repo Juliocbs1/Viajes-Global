@@ -1,26 +1,113 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Manejo del menú móvil
     const navbar = document.querySelector('.navbar');
     const fullscreenMenu = document.getElementById('fullscreenMenu');
     const menuIcon = document.getElementById('menuIcon');
+    const subMenus = document.querySelectorAll('.sub-menu');
+    let currentMenu = null;
 
+    // Función para ajustar la altura del menú
+    const adjustMenuHeight = () => {
+        const navbarHeight = navbar.offsetHeight;
+        fullscreenMenu.style.top = `${navbarHeight}px`;
+        subMenus.forEach(menu => {
+            menu.style.top = `${navbarHeight}px`;
+        });
+    };
+
+    // Función para cerrar submenús
+    const closeSubMenus = () => {
+        if (currentMenu) {
+            currentMenu.classList.add('slide-out');
+            setTimeout(() => {
+                currentMenu.classList.remove('active', 'slide-in', 'slide-out');
+                currentMenu = null;
+            }, 500);
+        }
+    };
+
+    // Manejo del menú móvil principal con transición suave
     menuIcon.addEventListener('click', () => {
-        const navbarHeight = navbar.offsetHeight;
-        fullscreenMenu.style.top = `${navbarHeight}px`;
-        fullscreenMenu.classList.toggle('active');
-        menuIcon.classList.toggle('active');
-    });
-
-    window.addEventListener('resize', () => {
-        const navbarHeight = navbar.offsetHeight;
-        fullscreenMenu.style.top = `${navbarHeight}px`;
-
-        if (window.innerWidth > 768 && fullscreenMenu.classList.contains('active')) {
-            fullscreenMenu.classList.remove('active');
-            menuIcon.classList.remove('active');
+        adjustMenuHeight();
+        
+        // Cerrar submenús primero
+        closeSubMenus();
+        
+        // Agregar transición suave al abrir/cerrar menú principal
+        requestAnimationFrame(() => {
+            fullscreenMenu.classList.toggle('active');
+            menuIcon.classList.toggle('active');
+        });
+        
+        if (!fullscreenMenu.classList.contains('active')) {
+            subMenus.forEach(menu => {
+                menu.classList.remove('active');
+                setTimeout(() => {
+                    menu.classList.remove('slide-in');
+                }, 500);
+            });
+            currentMenu = null;
         }
     });
 
+    // Configurar enlaces del menú principal con transición mejorada
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetSection = document.getElementById(item.getAttribute('data-section'));
+            
+            if (targetSection) {
+                adjustMenuHeight();
+                
+                // Agregar transición suave al abrir submenú
+                requestAnimationFrame(() => {
+                    targetSection.classList.add('active');
+                    setTimeout(() => {
+                        targetSection.classList.add('slide-in');
+                    }, 50);
+                });
+                
+                currentMenu = targetSection;
+            }
+        });
+    });
+
+    // Función mejorada para volver atrás
+    window.goBack = function() {
+        if (currentMenu) {
+            currentMenu.classList.add('slide-out');
+            
+            setTimeout(() => {
+                currentMenu.classList.remove('active', 'slide-in');
+                currentMenu.classList.remove('slide-out');
+                currentMenu = null;
+            }, 500);
+        } else {
+            fullscreenMenu.classList.remove('active');
+            menuIcon.classList.remove('active');
+        }
+    };
+
+    // Manejo de redimensionamiento de ventana
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            adjustMenuHeight();
+            
+            if (window.innerWidth > 768) {
+                fullscreenMenu.classList.remove('active');
+                menuIcon.classList.remove('active');
+                subMenus.forEach(menu => {
+                    menu.classList.remove('active', 'slide-in', 'slide-out');
+                });
+                currentMenu = null;
+            }
+        }, 250);
+    });
+
+    // Inicialización
+    adjustMenuHeight();
     // Manejo del submenú con animaciones mejoradas
     const links = {
         'reservarLink': 'reservarSection',
@@ -310,6 +397,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+const notificationCheckboxes = document.querySelectorAll('input[name="notification[]"]');
+
+notificationCheckboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', handleNotificationCheckboxChange);
+});
+
+function handleNotificationCheckboxChange(event) {
+  notificationCheckboxes.forEach(checkbox => {
+    if (checkbox !== event.target) {
+      checkbox.checked = false;
+    }
+  });
+}
+
 // Manejo de los radio buttons para tipo de viaje
 const tripOptions = document.querySelectorAll('.trip-option');
 const returnDateInput = document.querySelector('.input-group:nth-child(4)'); // Asumiendo que es el cuarto input group (de 'Vuelta')
@@ -333,3 +434,4 @@ tripOptions.forEach(option => {
         }
     });
 });
+
