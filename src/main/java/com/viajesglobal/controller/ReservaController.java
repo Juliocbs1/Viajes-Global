@@ -4,6 +4,7 @@ package com.viajesglobal.controller;
 
 import com.viajesglobal.dto.LugarDTO;
 
+import com.viajesglobal.dto.ReservaDTO;
 import com.viajesglobal.dto.RutaDTO;
 import com.viajesglobal.dto.VueloDTO;
 import com.viajesglobal.service.LugarDAO;
@@ -35,6 +36,8 @@ public class ReservaController {
 
     @Autowired
     private RutaDAO rutaDAO;
+
+
 
     //envio de datos a reserva.html
     @PostMapping("/buscar-vuelos")
@@ -104,6 +107,8 @@ public class ReservaController {
 
             // Pasar lista de vuelos de ida y, si aplica, de regreso
             model.addAttribute("vuelosDeIda", vuelosDeIda);
+
+
             if (tipoViaje.equals("idaYvuelta")) {
                 model.addAttribute("vuelosDeRegreso", vuelosDeRegreso);
             }
