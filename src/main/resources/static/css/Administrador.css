@@ -277,7 +277,7 @@ body, html {
 /* Ícono de flecha */
 .arrow-icon {
     font-size: 1.2rem;
-    color: white;
+    
     transition: transform 0.3s ease;
 }
 
