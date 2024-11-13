@@ -258,6 +258,25 @@
         </div>
     </main>
 
+    <!-- aqui va los paquetes que se podran comprar en el sistema -->
+    <div class="card" style="align-content: center"  th:each="paquete, numeroPaquetes : ${paquetes}" th:if="${numeroPaquetes.index < 5}">
+        <div class="card-header">
+            <h3 th:text="${paquete.nombre}"></h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Descripción:</strong> <span th:text="${paquete.descripcion}"></span></p>
+            <p><strong>Precio:</strong> <span th:text="${paquete.precio}"></span></p>
+            <p><strong>Disponibilidad:</strong> <span th:text="${paquete.disponibilidad}"></span></p>
+        </div>
+        <div class="card-footer">
+            <a href="#">
+                <button class="delete-btn">Comprar</button>
+            </a>
+        </div>
+    </div>
+
+    <br><br>
+
     <!-- Footer de la página -->
     <footer>
         <div class="footer-section">
@@ -292,13 +311,68 @@
 </div>
 
 <!-- Menú móvil -->
+<!-- Menú móvil -->
+<!-- Menú móvil principal -->
 <div class="fullscreen-menu" id="fullscreenMenu">
     <div class="menu-content">
-        <a href="#" class="menu-item">Reservar</a>
-        <a href="#" class="menu-item">Ofertas y destinos</a>
-        <a href="#" class="menu-item">Mi reserva</a>
-        <a href="#" class="menu-item">Ayuda</a>
-        <a href="#" class="menu-item">Programa de lealtad</a>
+        <a href="#" class="menu-item" data-section="clientesSection">Reservar</a>
+        <a href="#" class="menu-item" data-section="promocionesSection">Ofertas y Destinos</a>
+        <a href="#" class="menu-item" data-section="transaccionesSection">Mi reserva</a>
+        <a href="#" class="menu-item" data-section="reporteSection">Ayuda</a>
+        <a href="#" class="menu-item" data-section="viajesSection">Servicios Adicionales</a>
+    </div>
+</div>
+
+<!-- Submenú de Clientes -->
+<div class="fullscreen-menu sub-menu" id="clientesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Reservar vuelo<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Reservar hotel<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Paquetes completos<span class="arrow-icon">➔</span></a>
+    </div>
+</div>
+
+<!-- Submenú de Promociones -->
+<div class="fullscreen-menu sub-menu" id="promocionesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Ofertas de Vuelo<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Ofertas de hoteles<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Ofertas de paquetes<span class="arrow-icon">➔</span></a>
+    </div>
+</div>
+
+<!-- Submenú de Transacciones -->
+<div class="fullscreen-menu sub-menu" id="transaccionesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Consultar reserva<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Cambiar reserva<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Cancelar reserva<span class="arrow-icon">➔</span></a>
+    </div>
+</div>
+
+<!-- Submenú de Reporte -->
+<div class="fullscreen-menu sub-menu" id="reporteSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Preguntas frecuentes<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Atención al cliente<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Politica de equipaje<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Opción 4<span class="arrow-icon">➔</span></a>
+    </div>
+</div>
+
+<!-- Submenú de Viajes -->
+<div class="fullscreen-menu sub-menu" id="viajesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Mi cuenta<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Beneficios<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Canjea puntos<span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Opcion 4<span class="arrow-icon">➔</span></a>
     </div>
 </div>
 

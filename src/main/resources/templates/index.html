@@ -258,6 +258,25 @@
         </div>
     </main>
 
+    <!-- aqui va los paquetes que se podran comprar en el sistema -->
+    <div class="card" style="align-content: center"  th:each="paquete, numeroPaquetes : ${paquetes}" th:if="${numeroPaquetes.index < 5}">
+        <div class="card-header">
+            <h3 th:text="${paquete.nombre}"></h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Descripción:</strong> <span th:text="${paquete.descripcion}"></span></p>
+            <p><strong>Precio:</strong> <span th:text="${paquete.precio}"></span></p>
+            <p><strong>Disponibilidad:</strong> <span th:text="${paquete.disponibilidad}"></span></p>
+        </div>
+        <div class="card-footer">
+            <a href="#">
+                <button class="delete-btn">Comprar</button>
+            </a>
+        </div>
+    </div>
+
+    <br><br>
+
     <!-- Footer de la página -->
     <footer>
         <div class="footer-section">

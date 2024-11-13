@@ -1505,3 +1505,44 @@ input[type="date"]::-webkit-calendar-picker-indicator {
         flex-wrap: wrap;
     }
 }
+
+
+.card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.card-body {
+    margin-top: 8px;
+}
+
+.card-footer {
+    margin-top: 16px;
+    text-align: right;
+}
+
+.delete-btn, .update-btn {
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background-color: red;
+    color: white;
+}
+
+.update-btn {
+    background-color: blue;
+    color: white;
+}
+

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -155,29 +155,26 @@
         <thead>
             <tr>
                 <th>Acción</th>
-                <th>Nombre de Promoción</th>
-                <th>Descripción</th>
-                <th>Fecha de Inicio</th>
-                <th>Fecha de Fin</th>
-                <th>Descuento (%)</th>
-                <th>Condiciones</th>
-                <th>Código Promocional</th>
+                <th>Id Paquete</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Precio</th>
+                <th>Disponibilidad</th>
+                <th>Id Vuelo</th>
             </tr>
         </thead>
         <tbody id="tableBody">
-            <tr>
+            <tr th:each="paquete: ${paquetes}">
                 <td class="action-buttons">
-                    <button class="edit-btn">Editar</button>
-                    <button class="delete-btn">Eliminar</button>
+                    <a th:href="@{/borrarPaquete/{id}(id=${paquete.idPaquete})}"><button class="delete-btn">Eliminar</button></a>
                     <button class="update-btn">Actualizar</button>
                 </td>
-                <td>Promoción de Verano</td>
-                <td>Descuento especial en verano</td>
-                <td>2024-06-01</td>
-                <td>2024-09-01</td>
-                <td>15</td>
-                <td>Aplica en productos seleccionados</td>
-                <td>VERANO2024</td>
+                <td th:text="${paquete.idPaquete}"></td>
+                <td th:text="${paquete.nombre}"></td>
+                <td th:text="${paquete.descripcion}"></td>
+                <td th:text="${paquete.precio}"></td>
+                <td th:text="${paquete.disponibilidad}"></td>
+                <td th:text="${paquete.idVuelo}"></td>
             </tr>
         </tbody>
     </table>
@@ -186,29 +183,29 @@
 <div class="overlay" id="overlay" onclick="closeForm()"></div>
 
 <div class="form-popup" id="formPopup">
+    <form th:action="@{/guardar-paquete}" th:object="${paqueteDTO}" method="post">
     <h3>Agregar Promoción</h3>
-    <label for="nombre">Nombre de Promoción:</label>
-    <input type="text" id="nombre" required>
+    <label for="nombre">Nombre del paquete</label>
+    <input type="text" id="nombre" th:field="*{nombre}" required>
 
     <label for="descripcion">Descripción:</label>
-    <input type="text" id="descripcion" required>
+    <input type="text" id="descripcion" th:field="*{descripcion}" required>
 
-    <label for="fecha_inicio">Fecha de Inicio:</label>
-    <input type="date" id="fecha_inicio" required>
+        <label for="descuento">Precio</label>
+        <input type="number" id="descuento" th:field="*{precio}" required>
 
-    <label for="fecha_fin">Fecha de Fin:</label>
-    <input type="date" id="fecha_fin" required>
+    <label for="condiciones">Disponibilidad </label>
+    <input type="text" id="condiciones" th:field="*{disponibilidad}" required>
 
-    <label for="descuento">Descuento (%):</label>
-    <input type="number" id="descuento" required>
-
-    <label for="condiciones">Condiciones:</label>
-    <input type="text" id="condiciones" required>
-
-    <label for="codigo">Código Promocional:</label>
-    <input type="text" id="codigo" required>
-
-    <button class="submit-btn" onclick="submitForm()">Guardar</button>
+    <label>Id Vuelo:</label>
+        <select th:field="*{idVuelo}" class="form-input">
+            <option value="0">Seleccione un festival</option>
+            <option th:each="vuelo: ${listavuelos}" th:value="${vuelo.idRuta}" th:text="${vuelo.idRuta} + ' - ' + ${vuelo.numeroVuelo}"></option>
+        </select>
+        <br>
+        <br>
+    <button class="submit-btn" type="submit">Guardar</button>
+    </form>
 </div>
 
 <script>

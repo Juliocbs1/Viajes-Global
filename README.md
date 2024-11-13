@@ -31,7 +31,7 @@ nombre VARCHAR(100) NOT NULL,
 correo VARCHAR(100) NOT NULL UNIQUE,
 telefono VARCHAR(20),
 contrasena VARCHAR(255) NOT NULL,
-preferencia_notificacion ENUM('SMS', 'Correo', 'Push') DEFAULT 'Correo',
+preferencia_notificacion ENUM('SMS', 'CORREO', 'PUSH') DEFAULT 'CORREO',
 fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

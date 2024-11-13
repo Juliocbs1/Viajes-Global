@@ -20,7 +20,7 @@ public class AdminUsuarioController {
 
     @GetMapping("/admin")
     public String admin() {
-        return "PaginaRedireccion";
+        return "Administrador";
     }
 
     @GetMapping("/listausuarios")
