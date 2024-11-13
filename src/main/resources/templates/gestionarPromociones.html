@@ -1,273 +1,375 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Promociones</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .button {
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .button:hover {
-            background-color: #0056b3;
-        }
-
-        .table-container {
-            width: 100%;
-            overflow-x: auto; /* Para hacer que la tabla sea desplazable en pantallas pequeñas */
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            min-width: 600px; /* Establecer un ancho mínimo para la tabla */
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-            white-space: nowrap; /* Evitar que el contenido se desborde */
-        }
-
-        th {
-            background-color: #333;
-            color: white;
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-wrap: wrap; /* Permitir que los botones se envuelvan en varias filas si es necesario */
-            gap: 5px;
-            justify-content: center; /* Centrar horizontalmente los botones */
-            align-items: center;
-        }
-
-        .action-buttons button {
-            flex: 1 1 auto; /* Permitir que los botones se redimensionen según el espacio disponible */
-            min-width: 70px; /* Ancho mínimo para los botones */
-            margin: 3px 0; /* Espaciado vertical entre botones cuando se envuelven */
-            padding: 5px 10px;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .edit-btn { background-color: #007bff; }
-        .delete-btn { background-color: #dc3545; }
-        .update-btn { background-color: #28a745; }
-
-        .form-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 2px solid #ccc;
-            padding: 20px;
-            z-index: 1000;
-            width: 300px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-popup h3 {
-            margin-top: 0;
-        }
-
-        .form-popup label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-
-        .form-popup input[type="text"],
-        .form-popup input[type="number"],
-        .form-popup input[type="date"],
-        .form-popup input[type="email"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .form-popup .submit-btn {
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .form-popup .submit-btn:hover {
-            background-color: #0056b3;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 500;
-        }
-    </style>
+    <title>ViajesGlobal</title>
+    <!-- Archivos de estilo -->
+    <link rel="stylesheet" href="./CSS/gestionarPromocion.css">
 </head>
 <body>
 
-<div class="header">
-    <button class="button" onclick="openForm()">Agregar Nueva Promoción</button>
-    <input type="text" placeholder="Buscar por cualquier dato..." id="searchInput" onkeyup="searchTable()">
+<!-- Contenedor principal de la página -->
+<div class="page-container">
+    
+    <!-- Barra de navegación fija -->
+    <nav class="navbar">
+        <div class="container">
+            <button class="menu-icon" id="menuIcon">☰</button>
+            <!-- Logo de la empresa -->
+            <div class="logo-container">
+                <a href="#" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24"><path fill="currentColor" d="m11.8 12.9l-2.4.6l-1.075-.8q-.075-.05-.4-.1l-.125.05q-.225.05-.325.263t.025.412l1.15 2q.1.15.25.213t.325.012l8.525-2.25q.375-.1.563-.463t.087-.737t-.437-.562t-.713-.088l-2.45.65l-3.725-3.5q-.125-.125-.3-.162t-.35.012l-.125.025q-.35.075-.488.4t.038.625zM4 20q-.825 0-1.412-.587T2 18v-3.375q0-.275.175-.475t.45-.25q.6-.2.988-.725T4 12t-.387-1.175t-.988-.725q-.275-.05-.45-.25T2 9.375V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20z"/></svg>
+                    ViajesGlobal
+                </a>
+            </div>
+            <!-- Enlaces de navegación -->
+            <div class="nav-links" id="navLinks">
+                <a href="#" class="nav-item" id="reservarLink">Clientes</a>
+                <a href="#" class="nav-item" id="offersLink">Promociones</a>
+                <a href="#" class="nav-item" id="miReservaLink">Transacciones</a>
+                <a href="#" class="nav-item" id="ayudaLink">Reporte</a>
+                <a href="#" class="nav-item" id="lealtadLink">Viajes</a>
+            </div>
+            <!-- Botón de cuenta -->
+            <button class="account-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0a4.5 4.5 0 0 1-9 0M3.751 20.105a8.25 8.25 0 0 1 16.498 0a.75.75 0 0 1-.437.695A18.7 18.7 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695" clip-rule="evenodd"/></svg>
+                <span>Admin</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Contenido principal con scroll -->
+    <main id="main-content">
+        <div class="overlay" id="overlay"></div>
+
+        <!-- Centro -->
+          <!-- Nuevo container principal -->
+          <div class="main-container">
+            <div class="cards-container">
+            <div class="header">
+                <button class="button" id="btnAgregarCliente">Agregar Nueva Promoción</button>
+                <input type="text" placeholder="Buscar por cualquier dato..." id="searchInput" onkeyup="searchTable()">
+            </div>
+    
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Acción</th>
+                            <th>Id Paquete</th>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                            <th>Precio</th>
+                            <th>Disponibilidad</th>
+                            <th>Id Vuelo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr  th:each="usuario : ${usuarios}">
+                            <td class="action-buttons">
+                                <a><button class="edit-btn">Editar</button></a>
+                                <a th:href="@{/borrarPaquete/{id}(id=${paquete.idPaquete})}"><button class="delete-btn">Eliminar</button></a>
+                                
+                            </td>
+                            <td th:text="${paquete.idPaquete}"></td>
+                            <td th:text="${paquete.nombre}"></td>
+                            <td th:text="${paquete.descripcion}"></td>
+                            <td th:text="${paquete.precio}"></td>
+                            <td th:text="${paquete.disponibilidad}"></td>
+                            <td th:text="${paquete.idVuelo}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+          </div>
+        
+        <div class="menu-container" id="menuContainer">
+            <!-- Sección Reservar -->
+            <div id="reservarSection" class="hidden-section">
+                <h2>Clientes</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Gestionar Clientes <span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sección Ofertas y Destinos -->
+            <div id="offersSection" class="hidden-section">
+                <h2>Promociones</h2>
+                <div class="offer-grid">
+                    <!-- Lista de ofertas -->
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Gestionar Promociones o Planes<span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Mi Reserva -->
+            <div id="miReservaSection" class="hidden-section">
+                <h2>Transacciones</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Verificar Transacciones<span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Ayuda -->
+            <div id="ayudaSection" class="hidden-section">
+                <h2>Reporte</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Reporte de las Ventas<span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Programa de Lealtad -->
+            <div id="lealtadSection" class="hidden-section">
+                <h2>Viajes</h2>
+                <div class="offer-grid">
+                    <div class="offer-columns">
+                        <div class="offer-column">
+                            <a href="#" class="offer-item">Gestionar Viajes<span class="arrow-icon">➔</span></a>
+                        </div>
+                    </div>
+                    <!-- Promoción destacada -->
+                    <div class="offer-promo-container">
+                        <div class="offer-promo">
+                            <div class="promo-content">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer de la página -->
+    <footer>
+        <div class="footer-section">
+            <div class="container">
+                <!-- Izquierda: Quejas y Reclamos -->
+                <div class="footer-left">
+                    <h3>QUEJAS Y RECLAMOS</h3>
+                    <p>Haznos saber cualquier inconveniente o problema. Estamos aquí para ayudarte.</p>
+                    <div class="footer-form">
+                        <input type="email" placeholder="Escribe tu correo aquí">
+                        <button>Enviar</button>
+                    </div>
+                </div>
+                <!-- Derecha: Paga Seguro -->
+                <div class="footer-right">
+                    <h3>Paga Seguro</h3>
+                    <div class="secure-section">
+                        <img src="./IMAGENES/SECUREPAY.svg" alt="SSL Secure">
+                        <p>Paga seguro con nuestros medios de pago.</p>
+                    </div>
+                    <div class="payment-methods">
+                        <img src="./IMAGENES/visa.svg" alt="Visa">
+                        <img src="./IMAGENES/marstercard.svg" alt="MasterCard">
+                        <img src="./IMAGENES/american.svg" alt="American Express">
+                        <img src="./IMAGENES/Dinners CLub.svg" alt="Diners Club">
+                        <img src="./IMAGENES/JCB.svg" alt="JCB">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>Acción</th>
-                <th>Id Paquete</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Precio</th>
-                <th>Disponibilidad</th>
-                <th>Id Vuelo</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody">
-            <tr th:each="paquete: ${paquetes}">
-                <td class="action-buttons">
-                    <a th:href="@{/borrarPaquete/{id}(id=${paquete.idPaquete})}"><button class="delete-btn">Eliminar</button></a>
-                    <button class="update-btn">Actualizar</button>
-                </td>
-                <td th:text="${paquete.idPaquete}"></td>
-                <td th:text="${paquete.nombre}"></td>
-                <td th:text="${paquete.descripcion}"></td>
-                <td th:text="${paquete.precio}"></td>
-                <td th:text="${paquete.disponibilidad}"></td>
-                <td th:text="${paquete.idVuelo}"></td>
-            </tr>
-        </tbody>
-    </table>
+<!-- Menú móvil -->
+<!-- Menú móvil principal -->
+<div class="fullscreen-menu" id="fullscreenMenu">
+    <div class="menu-content">
+        <a href="#" class="menu-item" data-section="clientesSection">Clientes</a>
+        <a href="#" class="menu-item" data-section="promocionesSection">Promociones</a>
+        <a href="#" class="menu-item" data-section="transaccionesSection">Transacciones</a>
+        <a href="#" class="menu-item" data-section="reporteSection">Reporte</a>
+        <a href="#" class="menu-item" data-section="viajesSection">Viajes</a>
+    </div>
 </div>
 
-<div class="overlay" id="overlay" onclick="closeForm()"></div>
-
-<div class="form-popup" id="formPopup">
-    <form th:action="@{/guardar-paquete}" th:object="${paqueteDTO}" method="post">
-    <h3>Agregar Promoción</h3>
-    <label for="nombre">Nombre del paquete</label>
-    <input type="text" id="nombre" th:field="*{nombre}" required>
-
-    <label for="descripcion">Descripción:</label>
-    <input type="text" id="descripcion" th:field="*{descripcion}" required>
-
-        <label for="descuento">Precio</label>
-        <input type="number" id="descuento" th:field="*{precio}" required>
-
-    <label for="condiciones">Disponibilidad </label>
-    <input type="text" id="condiciones" th:field="*{disponibilidad}" required>
-
-    <label>Id Vuelo:</label>
-        <select th:field="*{idVuelo}" class="form-input">
-            <option value="0">Seleccione un festival</option>
-            <option th:each="vuelo: ${listavuelos}" th:value="${vuelo.idRuta}" th:text="${vuelo.idRuta} + ' - ' + ${vuelo.numeroVuelo}"></option>
-        </select>
-        <br>
-        <br>
-    <button class="submit-btn" type="submit">Guardar</button>
-    </form>
+<!-- Submenú de Clientes -->
+<div class="fullscreen-menu sub-menu" id="clientesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Gestionar Clientes <span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Nuevo Cliente <span class="arrow-icon">➔</span></a>
+    </div>
 </div>
 
-<script>
-    function openForm() {
-        document.getElementById("formPopup").style.display = "block";
-        document.getElementById("overlay").style.display = "block";
-    }
+<!-- Submenú de Promociones -->
+<div class="fullscreen-menu sub-menu" id="promocionesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Ofertas de Vuelo <span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Descuentos Especiales <span class="arrow-icon">➔</span></a>
+    </div>
+</div>
 
-    function closeForm() {
-        document.getElementById("formPopup").style.display = "none";
-        document.getElementById("overlay").style.display = "none";
-    }
+<!-- Submenú de Transacciones -->
+<div class="fullscreen-menu sub-menu" id="transaccionesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Historial de Transacciones <span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Verificar Transacciones <span class="arrow-icon">➔</span></a>
+    </div>
+</div>
 
-    function submitForm() {
-        const nombre = document.getElementById("nombre").value;
-        const descripcion = document.getElementById("descripcion").value;
-        const fechaInicio = document.getElementById("fecha_inicio").value;
-        const fechaFin = document.getElementById("fecha_fin").value;
-        const descuento = document.getElementById("descuento").value;
-        const condiciones = document.getElementById("condiciones").value;
-        const codigo = document.getElementById("codigo").value;
+<!-- Submenú de Reporte -->
+<div class="fullscreen-menu sub-menu" id="reporteSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Reporte de Ventas <span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Estadísticas <span class="arrow-icon">➔</span></a>
+    </div>
+</div>
 
-        const tableBody = document.getElementById("tableBody");
-        const newRow = document.createElement("tr");
+<!-- Submenú de Viajes -->
+<div class="fullscreen-menu sub-menu" id="viajesSection">
+    <button class="back-button" onclick="goBack()"></button>
+    <div class="menu-content">
+        <a href="#" class="sub-menu-item">Destinos Populares <span class="arrow-icon">➔</span></a>
+        <a href="#" class="sub-menu-item">Nuevas Rutas <span class="arrow-icon">➔</span></a>
+    </div>
+</div>
 
-        newRow.innerHTML = `
-            <td class="action-buttons">
-                <button class="edit-btn">Editar</button>
-                <button class="delete-btn">Eliminar</button>
-                <button class="update-btn">Actualizar</button>
-            </td>
-            <td>${nombre}</td>
-            <td>${descripcion}</td>
-            <td>${fechaInicio}</td>
-            <td>${fechaFin}</td>
-            <td>${descuento}</td>
-            <td>${condiciones}</td>
-            <td>${codigo}</td>
-        `;
 
-        tableBody.appendChild(newRow);
+<!-- Modal de Admin Panel -->
+<div class="login-modal" id="loginModal">
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Panel de Administrador</h2>
+            <button type="button" class="close-login" id="closeLogin">×</button>
+        </div>
+        <div class="admin-profile">
+            <div class="admin-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="currentColor" fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0a4.5 4.5 0 0 1-9 0M3.751 20.105a8.25 8.25 0 0 1 16.498 0a.75.75 0 0 1-.437.695A18.7 18.7 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695" clip-rule="evenodd"/>
+                </svg>
+                <div class="admin-details">
+                    <h3 id="adminName">Nombre del Administrador</h3>
+                    <p>Administrador</p>
+                </div>
+            </div>
+        </div>
 
-        document.getElementById("nombre").value = "";
-        document.getElementById("descripcion").value = "";
-        document.getElementById("fecha_inicio").value = "";
-        document.getElementById("fecha_fin").value = "";
-        document.getElementById("descuento").value = "";
-        document.getElementById("condiciones").value = "";
-        document.getElementById("codigo").value = "";
-        closeForm();
-    }
+        <div class="notifications-section">
+            <div class="section-header">
+                <h3>Notificaciones</h3>
+            </div>
+            <div class="notifications-list" id="notificationsList">
+                <!-- Las notificaciones se cargarán dinámicamente aquí -->
+                <div class="empty-notifications">
+                    <p>No hay notificaciones nuevas</p>
+                </div>
+            </div>
+        </div>
 
-    function searchTable() {
-        const searchInput = document.getElementById("searchInput").value.toLowerCase();
-        const tableRows = document.querySelectorAll("#tableBody tr");
+        <button class="logout-btn" id="logoutBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+            </svg>
+            Cerrar Sesión
+        </button>
+    </div>
+</div>
 
-        tableRows.forEach(row => {
-            const rowText = row.innerText.toLowerCase();
-            row.style.display = rowText.includes(searchInput) ? "" : "none";
-        });
-    }
-</script>
+<!-- Contenedor de Overlay -->
+<div id="overlay" style="display: none;"></div>
+
+<!-- Modal de Registro -->
+<div class="modal-registro" id="modalRegistro">
+    <div class="contenedor-registro">
+        <div class="cabecera-registro">
+            <h2>Agregar Promoción</h2>
+            <button type="button" class="cerrar-registro" id="cerrarRegistro">×</button>
+        </div>
+        
+        <form id="formRegistro" class="formulario-registro" th:action="@{/guardar-paquete}" th:object="${paqueteDTO}" method="post" novalidate>
+            <div class="contenido-formulario">
+                <div class="grupo-campo">
+                    <label for="nombre">Nombre del paquete</label>
+                    <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required>
+                </div>
+                <div class="grupo-campo">
+                    <label for="correo">Descripción</label>
+                    <input type="email" id="correo" name="correo" th:field="*{descripcion}" required>
+                </div>
+                <div class="grupo-campo">
+                    <label for="telefono">Precio</label>
+                    <input type="tel" id="telefono" name="telefono"  th:field="*{precio}" required>
+                </div>
+                <div class="grupo-campo">
+                    <label for="contraseña">Disponibilidad</label>
+                    <input type="password" id="contraseña" name="contraseña" th:field="*{disponibilidad}" required>
+                </div>
+                <div class="grupo-campo seleccion-vuelo">
+                    <label class="etiqueta-vuelo">Id Vuelo</label>
+                    <div class="contenedor-select">
+                        <select th:field="*{idVuelo}" class="form-input">
+                            <option value="0">Seleccione un vuelo</option>
+                            <option th:each="vuelo: ${listavuelos}" th:value="${vuelo.idRuta}" 
+                                    th:text="${vuelo.idRuta} + ' - ' + ${vuelo.numeroVuelo}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="boton-registro">Guardar</button>
+        </form>
+    </div>
+</div>
+
+
+<!-- Archivo JavaScript -->
+<script src="./JS/gestionarPromocion.js"></script>
 
 </body>
 </html>
