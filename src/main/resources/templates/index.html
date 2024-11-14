@@ -46,6 +46,7 @@
         <!-- Aquí se coloca el contenedor de búsqueda -->
         <div class="search-container">
             <div class="trip-controls">
+                <form th:action="@{/reserva/buscar-vuelos}" method="post">
                 <div class="trip-type">
                     <label class="trip-option active">
                         <span class="radio-custom"></span>
@@ -76,12 +77,18 @@
             <div class="search-form">
                 <div class="input-group origin">
                     <label>Origen</label>
-                    <input type="text" class="input-field" placeholder="Seleccionar origen" />
+                    <select id="origin-select" name="origen" class="input-field" required>
+                        <option value="">Seleccionar origen</option>
+                        <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
+                    </select>
                 </div>
                 
                 <div class="input-group destination">
                     <label>Destino</label>
-                    <input type="text" class="input-field" placeholder="Seleccionar destino" />
+                    <select id="destination-select" name="destino" class="input-field" required>
+                        <option value="">Seleccionar destino</option>
+                        <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
+                    </select>
                 </div>
 
                 <div class="input-group">
@@ -111,13 +118,14 @@
                                 <button type="button" class="increase-btn">+</button>
                             </div>
                         </div>
-                        <button type="button" class="confirm-btn">Confirmar</button>
+                        <button type="submit" class="confirm-btn">Confirmar</button>
                     </div>
                 </div>
                 
 
                 <button class="search-btn">Buscar</button>
             </div>
+        </form>
         </div>
         <!-- Fin del contenedor de búsqueda -->
 
@@ -372,12 +380,12 @@
 
 <!-- Modal de Login y Registro -->
 <div class="login-modal" id="loginModal">
-    <div class="login-container">
+    <div class="login-container" id="loginContainer">
         <div class="login-header">
             <h2>Iniciar sesión</h2>
             <button type="button" class="close-login" id="closeLogin">×</button>
         </div>
-        <form class="login-form" id="loginForm" novalidate>
+        <form class="login-form" id="loginForm" th:action="@{/login}" method="post" novalidate>
             <div class="form-group">
                 <label for="username">Cedula</label>
                 <input type="number" id="username" name="username" required>
@@ -389,7 +397,7 @@
             <button type="submit" class="login-btn">Iniciar sesión</button>
         </form>
         <div class="login-footer">
-            <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+            <p>¿No tienes una cuenta? <a href="/usuario" id="showRegister">Regístrate aquí</a></p>
         </div>
     </div>
     
@@ -398,44 +406,44 @@
             <h2>Registro</h2>
             <button type="button" class="close-login" id="closeRegister">×</button>
         </div>
-        
-        <form id="registerForm" class="register-form" novalidate>
+
+        <form id="registerForm" class="register-form" th:action="@{/save-usuario}" th:object="${usuarioDTO}" method="post" novalidate>
             <div class="form-content">
                 <div class="form-group">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" required>
+                    <input type="text" id="name" name="name" th:field="*{nombre}" required>
                 </div>
                 <div class="form-group">
                     <label for="email">Correo</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" th:field="*{correo}" required>
                 </div>
                 <div class="form-group">
                     <label for="phone">Teléfono</label>
-                    <input type="tel" id="phone" name="phone" required>
+                    <input type="tel" id="phone" name="phone" th:field="*{telefono}" required>
                 </div>
                 <div class="form-group">
                     <label for="newPassword">Contraseña</label>
-                    <input type="password" id="newPassword" name="newPassword" required>
+                    <input type="password" id="newPassword" name="newPassword" th:field="*{contrasena}" required>
                 </div>
                 <div class="form-group notification-group">
                     <label class="notification-label">Preferencias de Notificación</label>
                     <div class="radio-container">
                         <div class="custom-radio">
-                            <input type="radio" id="pushNotif" name="notification" value="PUSH">
+                            <input type="radio" id="pushNotif" name="notification" value="PUSH" th:field="*{preferenciaNotificacion}">
                             <label for="pushNotif">
                                 <span class="radio-custom"></span>
                                 PUSH
                             </label>
                         </div>
                         <div class="custom-radio">
-                            <input type="radio" id="emailNotif" name="notification" value="CORREO">
+                            <input type="radio" id="emailNotif" name="notification" value="CORREO" th:field="*{preferenciaNotificacion}">
                             <label for="emailNotif">
                                 <span class="radio-custom"></span>
                                 CORREO
                             </label>
                         </div>
                         <div class="custom-radio">
-                            <input type="radio" id="smsNotif" name="notification" value="SMS">
+                            <input type="radio" id="smsNotif" name="notification" value="SMS" th:field="*{preferenciaNotificacion}">
                             <label for="smsNotif">
                                 <span class="radio-custom"></span>
                                 SMS
@@ -446,7 +454,7 @@
                 
                 <div class="form-group">
                     <label for="cedula">Cédula</label>
-                    <input type="text" id="cedula" name="cedula" required>
+                    <input type="text" id="cedula" name="cedula" th:field="*{idUsuario}" required>
                 </div>
             </div>
             <button type="submit" class="login-btn">Registrar</button>
@@ -484,3 +492,4 @@
 </script>
 </body>
 </html>
+
