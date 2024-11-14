@@ -941,34 +941,69 @@ body, html {
     font-size: 0.9rem;
 }
 
-/* Estilos para la sección de notificaciones */
-.notifications-section {
-    margin-bottom: 1.5rem;
+/** Estilos para el grupo de notificaciones **/
+.notification-group {
+    margin-top: 1.5rem;
 }
 
-.section-header {
+.notification-label {
     margin-bottom: 1rem;
-}
-
-.section-header h3 {
     color: #333;
-    font-size: 1rem;
-    margin: 0;
+    font-size: 0.9rem;
 }
 
-.notifications-list {
-    max-height: 200px;
-    overflow-y: auto;
-    padding-right: 0.5rem;
+.radio-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.empty-notifications {
-    text-align: center;
-    color: #666;
-    padding: 1rem;
-    background-color: #f8f8f8;
-    border-radius: 8px;
+.custom-radio {
+    display: flex;
+    align-items: center;
 }
+
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+.custom-radio label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    gap: 0.5rem;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a0dad;
+    border-radius: 50%; /* Rounded shape for radio */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-custom {
+    background-color: #6a0dad;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-custom::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%; /* Inner circle for checked radio */
+    transform: translate(-50%, -50%); /* Center the white circle */
+}
+
+.custom-radio label:hover .radio-custom {
+    border-color: #24043b;
+}
+
 
 /* Estilos para el botón de cerrar sesión */
 .logout-btn {
@@ -1602,3 +1637,4 @@ tbody tr:hover {
         height: 18px;
     }
 }
+
