@@ -322,14 +322,15 @@
 </div>
 
 <!-- Contenedor de Overlay -->
-<div id="overlay" style="display: none;"></div>
+<!-- Overlay -->
+<div id="overlay" style="display: none;" onclick="closeForm()"></div>
 
 <!-- Modal de Registro -->
-<div class="modal-registro" id="modalRegistro">
+<div class="modal-registro" id="modalRegistro" style="display: none;">
     <div class="contenedor-registro">
         <div class="cabecera-registro">
             <h2>Agregar Promoción</h2>
-            <button type="button" class="cerrar-registro" id="cerrarRegistro">×</button>
+            <button type="button" class="cerrar-registro" id="cerrarRegistro" onclick="closeForm()">×</button>
         </div>
         
         <form id="formRegistro" class="formulario-registro" th:action="@{/guardar-paquete}" th:object="${paqueteDTO}" method="post" novalidate>
@@ -339,16 +340,16 @@
                     <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required>
                 </div>
                 <div class="grupo-campo">
-                    <label for="correo">Descripción</label>
-                    <input type="email" id="correo" name="correo" th:field="*{descripcion}" required>
+                    <label for="descripcion">Descripción</label>
+                    <input type="text" id="descripcion" name="descripcion" th:field="*{descripcion}" required>
                 </div>
                 <div class="grupo-campo">
-                    <label for="telefono">Precio</label>
-                    <input type="tel" id="telefono" name="telefono"  th:field="*{precio}" required>
+                    <label for="precio">Precio</label>
+                    <input type="number" id="precio" name="precio" th:field="*{precio}" required>
                 </div>
                 <div class="grupo-campo">
-                    <label for="contraseña">Disponibilidad</label>
-                    <input type="password" id="contraseña" name="contraseña" th:field="*{disponibilidad}" required>
+                    <label for="disponibilidad">Disponibilidad</label>
+                    <input type="text" id="disponibilidad" name="disponibilidad" th:field="*{disponibilidad}" required>
                 </div>
                 <div class="grupo-campo seleccion-vuelo">
                     <label class="etiqueta-vuelo">Id Vuelo</label>
@@ -373,4 +374,3 @@
 
 </body>
 </html>
-
