@@ -350,27 +350,27 @@
                     <label for="contraseña">Contraseña</label>
                     <input type="password" id="contraseña" name="contraseña"  th:field="*{contrasena}" required>
                 </div>
-                <div class="grupo-campo notificaciones">
-                    <label class="etiqueta-notificaciones">Preferencias de Notificación</label>
-                    <div class="contenedor-checkbox">
-                        <div class="checkbox-personalizado">
-                            <input type="checkbox" id="notificacionPush" name="notificacion[]" value="PUSH" th:field="*{preferenciaNotificacion}">
-                            <label for="notificacionPush">
-                                <span class="checkbox-estilo"></span>
+                <div class="form-group notification-group">
+                    <label class="notification-label">Preferencias de Notificación</label>
+                    <div class="radio-container">
+                        <div class="custom-radio">
+                            <input type="radio" id="pushNotif" name="notification" value="PUSH">
+                            <label for="pushNotif">
+                                <span class="radio-custom"></span>
                                 PUSH
                             </label>
                         </div>
-                        <div class="checkbox-personalizado">
-                            <input type="checkbox" id="notificacionCorreo" name="notificacion[]" value="CORREO" th:field="*{preferenciaNotificacion}">
-                            <label for="notificacionCorreo">
-                                <span class="checkbox-estilo"></span>
+                        <div class="custom-radio">
+                            <input type="radio" id="emailNotif" name="notification" value="CORREO">
+                            <label for="emailNotif">
+                                <span class="radio-custom"></span>
                                 CORREO
                             </label>
                         </div>
-                        <div class="checkbox-personalizado">
-                            <input type="checkbox" id="notificacionSms" name="notificacion[]" value="SMS" th:field="*{preferenciaNotificacion}">
-                            <label for="notificacionSms">
-                                <span class="checkbox-estilo"></span>
+                        <div class="custom-radio">
+                            <input type="radio" id="smsNotif" name="notification" value="SMS">
+                            <label for="smsNotif">
+                                <span class="radio-custom"></span>
                                 SMS
                             </label>
                         </div>
