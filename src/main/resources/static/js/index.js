@@ -1,110 +1,113 @@
 document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.querySelector('.navbar');
-    const fullscreenMenu = document.getElementById('fullscreenMenu');
-    const menuIcon = document.getElementById('menuIcon');
-    const subMenus = document.querySelectorAll('.sub-menu');
-    let currentMenu = null;
+const fullscreenMenu = document.getElementById('fullscreenMenu');
+const menuIcon = document.getElementById('menuIcon');
+const subMenus = document.querySelectorAll('.sub-menu');
+let currentMenu = null;
 
-    // Función para ajustar la altura del menú
-    const adjustMenuHeight = () => {
-        const navbarHeight = navbar.offsetHeight;
-        fullscreenMenu.style.top = `${navbarHeight}px`;
+// Función para ajustar la altura del menú
+const adjustMenuHeight = () => {
+    const navbarHeight = navbar.offsetHeight;
+    fullscreenMenu.style.top = `${navbarHeight}px`;
+    subMenus.forEach(menu => {
+        menu.style.top = `${navbarHeight}px`;
+    });
+};
+
+// Función para cerrar submenús con una animación de salida rápida
+const closeSubMenus = () => {
+    if (currentMenu) {
+        // Usa la clase de salida rápida para el submenú
+        currentMenu.classList.add('submenu7-slide-out');
+        
+        // Ajusta el tiempo de espera a 100 ms para que coincida con la duración de la animación
+        setTimeout(() => {
+            currentMenu.classList.remove('active', 'submenu7-slide-in', 'submenu7-slide-out');
+            currentMenu = null;
+        }, 100); // 100 ms para una salida rápida
+    }
+};
+
+// Manejo del menú móvil principal con transición suave
+menuIcon.addEventListener('click', () => {
+    adjustMenuHeight();
+    
+    // Cerrar submenús primero
+    closeSubMenus();
+    
+    // Agregar transición suave al abrir/cerrar menú principal
+    requestAnimationFrame(() => {
+        fullscreenMenu.classList.toggle('active');
+        menuIcon.classList.toggle('active');
+    });
+    
+    if (!fullscreenMenu.classList.contains('active')) {
         subMenus.forEach(menu => {
-            menu.style.top = `${navbarHeight}px`;
-        });
-    };
-
-    // Función para cerrar submenús
-    const closeSubMenus = () => {
-        if (currentMenu) {
-            currentMenu.classList.add('slide-out');
+            menu.classList.remove('active');
             setTimeout(() => {
-                currentMenu.classList.remove('active', 'slide-in', 'slide-out');
-                currentMenu = null;
+                menu.classList.remove('submenu7-slide-in');
             }, 500);
-        }
-    };
+        });
+        currentMenu = null;
+    }
+});
 
-    // Manejo del menú móvil principal con transición suave
-    menuIcon.addEventListener('click', () => {
+// Configurar enlaces del menú principal con transición mejorada
+const menuItems = document.querySelectorAll('.menu-item');
+menuItems.forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetSection = document.getElementById(item.getAttribute('data-section'));
+        
+        if (targetSection) {
+            adjustMenuHeight();
+            
+            // Agregar transición suave al abrir submenú
+            requestAnimationFrame(() => {
+                targetSection.classList.add('active');
+                setTimeout(() => {
+                    targetSection.classList.add('submenu7-slide-in');
+                }, 50);
+            });
+            
+            currentMenu = targetSection;
+        }
+    });
+});
+
+// Función mejorada para volver atrás
+window.goBack = function() {
+    if (currentMenu) {
+        currentMenu.classList.add('submenu7-slide-out');
+        
+        setTimeout(() => {
+            currentMenu.classList.remove('active', 'submenu7-slide-in', 'submenu7-slide-out');
+            currentMenu = null;
+        }, 100); // Reducido a 100 ms para una salida rápida
+    } else {
+        fullscreenMenu.classList.remove('active');
+        menuIcon.classList.remove('active');
+    }
+};
+
+// Manejo de redimensionamiento de ventana
+let resizeTimeout;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
         adjustMenuHeight();
         
-        // Cerrar submenús primero
-        closeSubMenus();
-        
-        // Agregar transición suave al abrir/cerrar menú principal
-        requestAnimationFrame(() => {
-            fullscreenMenu.classList.toggle('active');
-            menuIcon.classList.toggle('active');
-        });
-        
-        if (!fullscreenMenu.classList.contains('active')) {
+        if (window.innerWidth > 768) {
+            fullscreenMenu.classList.remove('active');
+            menuIcon.classList.remove('active');
             subMenus.forEach(menu => {
-                menu.classList.remove('active');
-                setTimeout(() => {
-                    menu.classList.remove('slide-in');
-                }, 500);
+                menu.classList.remove('active', 'submenu7-slide-in', 'submenu7-slide-out');
             });
             currentMenu = null;
         }
-    });
+    }, 250);
+});
 
-    // Configurar enlaces del menú principal con transición mejorada
-    const menuItems = document.querySelectorAll('.menu-item');
-    menuItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetSection = document.getElementById(item.getAttribute('data-section'));
-            
-            if (targetSection) {
-                adjustMenuHeight();
-                
-                // Agregar transición suave al abrir submenú
-                requestAnimationFrame(() => {
-                    targetSection.classList.add('active');
-                    setTimeout(() => {
-                        targetSection.classList.add('slide-in');
-                    }, 50);
-                });
-                
-                currentMenu = targetSection;
-            }
-        });
-    });
-
-    // Función mejorada para volver atrás
-    window.goBack = function() {
-        if (currentMenu) {
-            currentMenu.classList.add('slide-out');
-            
-            setTimeout(() => {
-                currentMenu.classList.remove('active', 'slide-in');
-                currentMenu.classList.remove('slide-out');
-                currentMenu = null;
-            }, 500);
-        } else {
-            fullscreenMenu.classList.remove('active');
-            menuIcon.classList.remove('active');
-        }
-    };
-
-    // Manejo de redimensionamiento de ventana
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            adjustMenuHeight();
-            
-            if (window.innerWidth > 768) {
-                fullscreenMenu.classList.remove('active');
-                menuIcon.classList.remove('active');
-                subMenus.forEach(menu => {
-                    menu.classList.remove('active', 'slide-in', 'slide-out');
-                });
-                currentMenu = null;
-            }
-        }, 250);
-    });
 
     // Inicialización
     adjustMenuHeight();
