@@ -238,8 +238,6 @@ body, html {
     font-size: 1.2rem; /* Mismo tamaño que las otras flechas */
 }
 
-
-
 .back-button:hover {
     transform: translateX(-5px);
 }
@@ -272,8 +270,8 @@ body, html {
     transform: translateX(5px);
 }
 
-/* Animaciones suaves */
-@keyframes slideIn {
+/* Animaciones de entrada y salida para los submenús */
+@keyframes submenu7SlideIn {
     from {
         transform: translateX(100%);
         opacity: 0;
@@ -284,7 +282,7 @@ body, html {
     }
 }
 
-@keyframes slideOut {
+@keyframes submenu7SlideOut {
     from {
         transform: translateX(0);
         opacity: 1;
@@ -295,11 +293,11 @@ body, html {
     }
 }
 
-.slide-in {
+.submenu7-slide-in {
     animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.slide-out {
+.submenu7-slide-out {
     animation: slideOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
@@ -899,22 +897,22 @@ body, html {
     font-size: 0.9rem;
 }
 
-.checkbox-container {
+.radio-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.custom-checkbox {
+.custom-radio {
     display: flex;
     align-items: center;
 }
 
-.custom-checkbox input[type="checkbox"] {
+.custom-radio input[type="radio"] {
     display: none;
 }
 
-.custom-checkbox label {
+.custom-radio label {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -922,34 +920,36 @@ body, html {
     gap: 0.5rem;
 }
 
-.checkbox-custom {
+.radio-custom {
     width: 20px;
     height: 20px;
     border: 2px solid #6a0dad;
-    border-radius: 4px;
+    border-radius: 50%; /* Rounded shape for radio */
     position: relative;
     transition: all 0.3s ease;
 }
 
-.custom-checkbox input[type="checkbox"]:checked + label .checkbox-custom {
+.custom-radio input[type="radio"]:checked + label .radio-custom {
     background-color: #6a0dad;
 }
 
-.custom-checkbox input[type="checkbox"]:checked + label .checkbox-custom::after {
+.custom-radio input[type="radio"]:checked + label .radio-custom::after {
     content: '';
     position: absolute;
-    left: 6px;
-    top: 2px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%; /* Inner circle for checked radio */
+    transform: translate(-50%, -50%); /* Center the white circle */
 }
 
-.custom-checkbox label:hover .checkbox-custom {
+.custom-radio label:hover .radio-custom {
     border-color: #24043b;
 }
+
+
 
 /** Botón de envío **/
 .login-btn {
@@ -1171,17 +1171,25 @@ footer {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     position: relative;
     display: block; /* Asegura que esté centrado */
+    width: calc(100% - 40px); 
+}
+
+.search-container,
+.extra-options,
+.extra-option {
+    transition: all 0.3s ease-in-out;
 }
 
 /* Tipos de viaje */
 .trip-type {
-    display: inline-flex;
+    display: inline-flex; /* Cambiado a inline-flex para ajustarse al contenido */
     background-color: white;
     padding: 4px;
     border-radius: 100px;
     gap: 4px;
-    margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    width: fit-content; /* Ajusta el ancho al contenido */
 }
 
 .trip-option {
@@ -1191,28 +1199,59 @@ footer {
     cursor: pointer;
     padding: 8px 16px;
     border-radius: 100px;
-    transition: background-color 0.3s, color 0.3s, transform 0.5s, box-shadow 0.5s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap; /* Evita que el texto se rompa en múltiples líneas */
+}
+
+.trip-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(106, 13, 173, 0.2),
+        transparent
+    );
+    transition: 0.5s;
 }
 
 .trip-option.active {
-    background-color: #eefcf3;
-    animation: highlightTripType 0.5s forwards;
-    transform: translateX(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: rgba(106, 13, 173, 0.1);
+    color: #6a0dad;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(106, 13, 173, 0.2);
 }
 
-@keyframes highlightTripType {
+.trip-option.active::before {
+    left: 100%;
+}
+
+@keyframes pulseGlow {
     0% {
-        background-color: #ffffff;
-        color: #666;
-        transform: translateX(0);
+        box-shadow: 0 0 0 0 rgba(106, 13, 173, 0.3);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(106, 13, 173, 0);
     }
     100% {
-        background-color: #eefcf3;
-        color: #6a0dad;
-        transform: translateX(10px);
+        box-shadow: 0 0 0 0 rgba(106, 13, 173, 0);
     }
+}
+
+.trip-option.active {
+    animation: pulseGlow 2s infinite;
+    background: linear-gradient(
+        145deg,
+        rgba(106, 13, 173, 0.15),
+        rgba(106, 13, 173, 0.05)
+    );
 }
 
 .radio-custom {
@@ -1222,10 +1261,12 @@ footer {
     border-radius: 50%;
     display: inline-block;
     position: relative;
+    transition: transform 0.3s ease;
 }
 
 .trip-option.active .radio-custom {
     border-color: #6a0dad;
+    transform: scale(1.1);
 }
 
 .trip-option.active .radio-custom::after {
@@ -1237,38 +1278,61 @@ footer {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: radioFill 0.3s forwards;
+}
+
+@keyframes radioFill {
+    from {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.trip-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinea los elementos al inicio */
+    margin-bottom: 20px;
+    gap: 12px;
+    width: 100%;
 }
 
 /* Formulario de búsqueda */
 .search-form {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
+    gap: 16px;
     align-items: center;
     background-color: white;
-    padding: 16px;
-    border-radius: 12px;
+    padding: 20px;
+    border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
+/* Grupos de input mejorados */
 .input-group {
     position: relative;
-    border-radius: 8px;
-    transition: all 0.4s ease-in-out;
-    opacity: 1;
-    margin-bottom: 16px;
-}
-
-.input-group.hidden {
-    opacity: 0;
-    transform: translateY(-20px);
-    pointer-events: none;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #f8f9fa;
+    border: 2px solid transparent;
+    padding: 8px 12px;
 }
 
 .input-group:hover {
-    background-color: #f5f5f5;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #f0f1f2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(106, 13, 173, 0.1);
+}
+
+.input-group:focus-within {
+    background-color: white;
+    border-color: rgba(106, 13, 173, 0.3);
+    box-shadow: 0 4px 20px rgba(106, 13, 173, 0.15);
+    transform: translateY(-2px);
 }
 
 .input-group label {
@@ -1276,73 +1340,144 @@ footer {
     font-size: 12px;
     color: #666;
     margin-bottom: 4px;
-    padding: 0 8px;
+    transition: all 0.3s ease;
+    transform-origin: left;
+}
+
+.input-group:focus-within label {
+    color: #6a0dad;
+    transform: scale(1.05);
 }
 
 .input-field {
     width: 100%;
     padding: 8px 32px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 14px;
-    cursor: pointer;
     background: transparent;
+    transition: all 0.3s ease;
 }
 
-.input-field:hover,
+.input-field:hover {
+    cursor: pointer;
+}
+
 .input-field:focus {
     outline: none;
 }
 
+/* Iconos de origen y destino */
 .input-group.origin::before,
 .input-group.destination::before {
     content: "✈";
     position: absolute;
-    left: 8px;
-    bottom: 8px;
+    left: 12px;
+    bottom: 12px;
     color: #666;
     transform: rotate(-45deg);
+    transition: all 0.3s ease;
 }
 
-/* Contenedor del selector de pasajeros */
+.input-group.origin:focus-within::before,
+.input-group.destination:focus-within::before {
+    color: #6a0dad;
+    transform: rotate(-45deg) scale(1.1);
+}
+
+/* Inputs de fecha */
+.date-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.calendar-icon {
+    position: absolute;
+    left: 8px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.input-group:focus-within .calendar-icon {
+    color: #6a0dad;
+    transform: scale(1.1);
+}
+
+input[type="date"] {
+    color: #333;
+    font-family: inherit;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Selector de pasajeros mejorado */
+/* Selector de pasajeros mejorado */
 .passengers-select {
     position: relative;
     cursor: pointer;
     z-index: 1050;
-    width: 100%;
 }
 
-/* Dropdown estilizado */
 .passengers-dropdown {
     position: absolute;
-    top: 100%;
-    left: 0;
+    top: calc(100% + 15px); /* Ubicado justo debajo del selector de pasajeros */
+    left: 0; /* Alineado con el borde izquierdo del contenedor */
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    padding: 16px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 20px;
     display: none;
     z-index: 1051;
-    min-width: 220px;
+    min-width: 280px;
+    max-width: 100%; /* Asegura que no se extienda más allá del contenedor en pantallas grandes */
+    border: 1px solid rgba(106, 13, 173, 0.1);
+    animation: dropdownFade 0.3s ease;
 }
 
-/* Mostrar el dropdown */
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .passengers-dropdown.show {
     display: block;
 }
 
-/* Estilo de las opciones de pasajeros */
 .passenger-control {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    font-size: 16px;
+    padding: 12px 0;
+    font-size: 14px;
+    width: 100%;
+    gap: 8px; /* Añade un espacio entre los elementos */
+}
+
+.passenger-control > div {
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Reduce el espacio entre el contador y los botones */
 }
 
 .passenger-control button {
-    background-color: #f5f5f5;
-    border: none;
+    background-color: transparent;
+    border: 2px solid #6a0dad;
     border-radius: 50%;
     width: 32px;
     height: 32px;
@@ -1351,63 +1486,160 @@ footer {
     justify-content: center;
     align-items: center;
     font-size: 18px;
-    transition: background-color 0.2s ease;
+    color: #6a0dad;
+    transition: all 0.2s ease;
+    padding: 0;
 }
 
 .passenger-control button:hover {
-    background-color: #e0e0e0;
+    background-color: #6a0dad;
+    color: white;
+    transform: scale(1.1);
+}
+
+.passenger-control button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #ccc;
+    color: #ccc;
+}
+
+.passenger-count {
+    min-width: 28px; /* Reduce el ancho mínimo para acercar los botones */
+    text-align: center;
+    font-weight: 500;
+    color: #6a0dad;
+    font-size: 16px;
+    padding: 0 4px; /* Reduce el espacio interno para que los botones estén más cerca */
 }
 
 /* Botón de confirmación */
 .confirm-btn {
     width: 100%;
-    background-color: #222;
+    background-color: #6a0dad;
     color: white;
     border: none;
     padding: 12px;
-    border-radius: 8px;
-    margin-top: 12px;
+    border-radius: 12px;
+    margin-top: 16px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .confirm-btn:hover {
-    background-color: #333;
+    background-color: #5a0b8d;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(106, 13, 173, 0.2);
 }
 
-/* Botón de búsqueda */
+/* Media queries */
+@media (max-width: 768px) {
+    .passengers-dropdown {
+        width: 100%;
+        min-width: unset;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes para mantener el dropdown justo debajo del apartado de pasajeros */
+    .passengers-dropdown {
+        width: 100%; /* Asegura que el dropdown ocupe todo el ancho del contenedor */
+        left: 0; /* Alineado con el borde izquierdo */
+        transform: none; /* Elimina la transformación de centrado */
+        padding: 16px; /* Reduce el padding para pantallas pequeñas */
+    }
+
+    /* Aumenta el tamaño de los botones más y menos */
+    .passenger-control button {
+        width: 28px;
+        height: 28px;
+        font-size: 16px;
+        padding: 0;
+    }
+
+    /* Ajusta el espaciado y tamaño del contador en pantallas pequeñas */
+    .passenger-count {
+        font-size: 14px;
+        padding: 0 4px;
+        min-width: 28px;
+    }
+
+    /* Reduce el tamaño del texto en el dropdown */
+    .passenger-control {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+
+    /* Botón de confirmación más pequeño */
+    .confirm-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+
+/* Estilo para el botón de búsqueda */
 .search-btn {
-    background-color: #222;
+    background-color: #6a0dad;
     color: white;
     border: none;
-    border-radius: 100px;
+    border-radius: 12px;
     padding: 12px 24px;
     cursor: pointer;
     font-weight: 500;
-    height: 42px;
+    height: 48px;
     min-width: 120px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(106, 13, 173, 0.2);
 }
 
 .search-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(106, 13, 173, 0.3);
+    background-color: #5a0b8d;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .search-form {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .input-group {
+        margin-bottom: 8px;
+    }
+
+    .passengers-dropdown {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .search-btn {
+        width: 100%;
+        height: 44px;
+    }
 }
 
 /* Opciones adicionales */
 .extra-options {
     display: flex;
     gap: 12px;
-    position: absolute;
-    right: 20px;
-    top: 10px; /* Ajustado para que esté más abajo */
+    position: relative; /* Cambiado de absolute a relative */
+    margin-bottom: 20px; /* Añadido margen inferior */
+    justify-content: flex-end; /* Alinea los botones a la derecha */
+    margin: 0; /* Removido el margin-bottom */
 }
 
 .extra-option {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     color: #666;
     text-decoration: none;
     font-size: 14px;
@@ -1416,12 +1648,62 @@ footer {
     border-radius: 100px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
 }
 
 .extra-option:hover {
     background-color: #f5f5f5;
-    transform: translateY(-1px);
+    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    color: #6a0dad;
+    border-color: #6a0dad;
+}
+
+.extra-option .icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.extra-option:hover .icon {
+    transform: rotate(-45deg);
+    stroke: #6a0dad;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 1024px) {
+    .extra-options {
+        justify-content: flex-start; /* En tablets, alinear a la izquierda */
+    }
+}
+
+@media (max-width: 768px) {
+    .trip-type {
+        align-self: center; /* Centra el contenedor en vista móvil */
+    }
+    
+    .trip-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .trip-controls {
+        gap: 12px;
+    }
+
+    .extra-options {
+        flex-direction: row; /* Mantener horizontal en móvil */
+        justify-content: center;
+    }
+
+    .extra-option {
+        flex: 1;
+        justify-content: center;
+        padding: 6px 12px;
+        font-size: 13px;
+    }
 }
 
 .icon {
@@ -1458,11 +1740,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Contenido principal con scroll */
+/* Contenedor principal sin scroll */
 #main-content {
-    overflow-y: auto; /* Permite el scroll vertical */
-    max-height: calc(100vh - 200px); /* Ajusta el espacio según la altura deseada */
+    overflow-y: auto; /* Activa el scroll solo si el contenido excede la altura */
+    max-height: 100vh; /* Limita la altura máxima al tamaño de la pantalla */
     padding: 1rem; /* Ajusta el padding si es necesario */
 }
+
 
 /* Media query para pantallas pequeñas */
 @media (max-width: 768px) {
@@ -1506,43 +1790,101 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     }
 }
 
+/* Contenedor principal para las promociones */
+.promociones-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
 
+/* Estilos de la tarjeta */
 .card {
-    border: 1px solid #ccc;
-    padding: 16px;
-    margin: 16px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background-color: #6a0dad;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    perspective: 1000px;
+    box-shadow: 0 0 0 5px #ffffff80;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d; /* Preserva el estilo 3D sin desenfoque */
+    will-change: transform; /* Optimiza el rendimiento */
+    backface-visibility: hidden; /* Evita el desenfoque */
 }
 
-.card-header {
-    font-size: 1.2em;
-    font-weight: bold;
+.card svg {
+    width: 48px;
+    fill: #ffffff;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card-body {
-    margin-top: 8px;
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(106, 13, 173, 0.3);
 }
 
-.card-footer {
-    margin-top: 16px;
-    text-align: right;
+.card__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    transform: rotateX(-90deg);
+    transform-origin: bottom;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backface-visibility: hidden; /* Oculta el backface para evitar desenfoque */
 }
 
-.delete-btn, .update-btn {
-    padding: 8px 16px;
-    margin: 0 4px;
+.card:hover .card__content {
+    transform: rotateX(0deg);
+}
+
+.card__title {
+    margin: 0;
+    font-size: 24px;
+    color: #6a0dad;
+    font-weight: 700;
+}
+
+.card__description {
+    margin: 10px 0 0;
+    font-size: 14px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.card:hover svg {
+    scale: 0;
+}
+
+/* Botón de compra */
+.card__button {
+    display: block;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.buy-btn {
+    background-color: #6a0dad;
+    color: #fff;
     border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.delete-btn {
-    background-color: red;
-    color: white;
+.buy-btn:hover {
+    background-color: #5a0b8d;
 }
 
-.update-btn {
-    background-color: blue;
-    color: white;
-}
 
