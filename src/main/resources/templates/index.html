@@ -1,4 +1,5 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -46,30 +47,31 @@
         <div class="search-container">
             <div class="trip-controls">
                 <form th:action="@{/reserva/buscar-vuelos}" method="post">
-                    <div class="trip-type">
-                        <label class="trip-option active">
-                            <input type="radio" name="tipoViaje" value="idaYvuelta" class="radio-custom" checked />
-                            Ida y vuelta
-                        </label>
-                        <label class="trip-option">
-                            <input type="radio" name="tipoViaje" value="soloIda" class="radio-custom" />
-                            Solo ida
-                        </label>
-                    </div>
-                    <div class="extra-options">
-                        <a href="#" class="extra-option">
-                            Hoteles
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
-                            </svg>
-                        </a>
-                        <a href="#" class="extra-option">
-                            Autos
-                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M7 17l9.2-9.2M17 17V7H7"/>
-                            </svg>
-                        </a>
-                    </div>
+                <div class="trip-type">
+                    <label class="trip-option active">
+                        <span class="radio-custom"></span>
+                        Ida y vuelta
+                    </label>
+                    <label class="trip-option">
+                        <span class="radio-custom"></span>
+                        Solo ida
+                    </label>
+                </div>
+        
+                <div class="extra-options">
+                    <a href="#" class="extra-option">
+                        Hoteles
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="extra-option">
+                        Autos
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 17l9.2-9.2M17 17V7H7"/>
+                        </svg>
+                    </a>
+                </div>
             </div>
 
             <div class="search-form">
@@ -80,7 +82,7 @@
                         <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
                     </select>
                 </div>
-
+                
                 <div class="input-group destination">
                     <label>Destino</label>
                     <select id="destination-select" name="destino" class="input-field" required>
@@ -88,11 +90,12 @@
                         <option th:each="lugarDTO : ${lugares}" th:value="${lugarDTO.idDestino}" th:text="${lugarDTO.ciudad + ', ' + lugarDTO.nombre}"></option>
                     </select>
                 </div>
+
                 <div class="input-group">
                     <label>Ida</label>
                     <div class="date-input">
                         <span class="calendar-icon">📅</span>
-                        <input type="date" name="fechaIda" class="input-field" value="2024-10-26" required />
+                        <input type="date" class="input-field" value="2024-10-26" />
                     </div>
                 </div>
 
@@ -100,11 +103,10 @@
                     <label>Vuelta</label>
                     <div class="date-input">
                         <span class="calendar-icon">📅</span>
-                        <input type="date" name="fechaVuelta" class="input-field" value="2024-10-29" />
+                        <input type="date" class="input-field" value="2024-10-29" />
                     </div>
                 </div>
 
-                <input type="hidden" id="cantidadPasajeros" name="cantidadPasajeros" value="1"/>
                 <div class="passengers-select">
                     <input type="text" class="input-field" value="1 pasajero" readonly />
                     <div class="passengers-dropdown">
@@ -116,11 +118,14 @@
                                 <button type="button" class="increase-btn">+</button>
                             </div>
                         </div>
+                        <button type="submit" class="confirm-btn">Confirmar</button>
                     </div>
                 </div>
-                <button type="submit" class="search-btn">Buscar</button>
+                
+
+                <button class="search-btn">Buscar</button>
             </div>
-            </form>
+        </form>
         </div>
         <!-- Fin del contenedor de búsqueda -->
 
@@ -292,15 +297,15 @@
                 <div class="footer-right">
                     <h3>Paga Seguro</h3>
                     <div class="secure-section">
-                        <img src="/img/SECUREPAY.svg" alt="SSL Secure">
+                        <img src="./IMAGENES/SECUREPAY.svg" alt="SSL Secure">
                         <p>Paga seguro con nuestros medios de pago.</p>
                     </div>
                     <div class="payment-methods">
-                        <img src="/img/visa.svg" alt="Visa">
-                        <img src="/img/marstercard.svg" alt="MasterCard">
-                        <img src="/img/american.svg" alt="American Express">
-                        <img src="/img/Dinners CLub.svg" alt="Diners Club">
-                        <img src="/img/JCB.svg" alt="JCB">
+                        <img src="./IMAGENES/visa.svg" alt="Visa">
+                        <img src="./IMAGENES/marstercard.svg" alt="MasterCard">
+                        <img src="./IMAGENES/american.svg" alt="American Express">
+                        <img src="./IMAGENES/Dinners CLub.svg" alt="Diners Club">
+                        <img src="./IMAGENES/JCB.svg" alt="JCB">
                     </div>
                 </div>
             </div>
@@ -375,12 +380,12 @@
 
 <!-- Modal de Login y Registro -->
 <div class="login-modal" id="loginModal">
-    <div class="login-container">
+    <div class="login-container" id="loginContainer">
         <div class="login-header">
             <h2>Iniciar sesión</h2>
             <button type="button" class="close-login" id="closeLogin">×</button>
         </div>
-        <form class="login-form" id="loginForm" novalidate>
+        <form class="login-form" th:action="@{/login}" method="post" novalidate>
             <div class="form-group">
                 <label for="username">Cedula</label>
                 <input type="number" id="username" name="username" required>
@@ -392,16 +397,17 @@
             <button type="submit" class="login-btn">Iniciar sesión</button>
         </form>
         <div class="login-footer">
-            <p>¿No tienes una cuenta? <a href="#" id="showRegister">Regístrate aquí</a></p>
+            <p>¿No tienes una cuenta? <a href="/usuario" id="showRegister">Regístrate aquí</a></p>
         </div>
     </div>
+    
     <div class="register-container" id="registerContainer" style="display:none;">
         <div class="login-header">
             <h2>Registro</h2>
             <button type="button" class="close-login" id="closeRegister">×</button>
         </div>
 
-        <form th:action="@{/usuario/registrar-usuario}" th:object="${usuarioDTO}" method="post">
+        <form class="register-form" th:action="@{/usuario/registrar-usuario}" th:object="${usuarioDTO}" method="post" novalidate>
             <div class="form-content">
                 <div class="form-group">
                     <label for="name">Nombre</label>
@@ -445,7 +451,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="form-group">
                     <label for="cedula">Cédula</label>
                     <input type="text" id="cedula" name="cedula" th:field="*{idUsuario}" required>
@@ -453,7 +459,7 @@
             </div>
             <button type="submit" class="login-btn">Registrar</button>
         </form>
-
+        
         <div class="login-footer">
             <p>¿Ya tienes una cuenta? <a href="#" id="backToLogin">Inicia sesión aquí</a></p>
         </div>
@@ -461,28 +467,7 @@
 </div>
 
 <!-- Archivo JavaScript -->
-<script src="./js/index.js"></script>
-<script>
-    // Variables para manejar la cantidad de pasajeros
-    let passengerCount = 1;
-    const passengerCountDisplay = document.querySelector('.passenger-count');
-    const cantidadPasajerosField = document.getElementById('cantidadPasajeros');
+<script src="./JS/index.js"></script>
 
-    // Aumentar pasajeros
-    document.querySelector('.increase-btn').addEventListener('click', function () {
-        passengerCount++; // Aumentamos la cantidad
-        passengerCountDisplay.textContent = passengerCount; // Actualizamos el valor visual
-        cantidadPasajerosField.value = passengerCount; // Actualizamos el valor del campo oculto
-    });
-
-    // Disminuir pasajeros
-    document.querySelector('.decrease-btn').addEventListener('click', function () {
-        if (passengerCount > 1) { // Evitamos que el número de pasajeros sea menor que 1
-            passengerCount--; // Reducimos la cantidad
-            passengerCountDisplay.textContent = passengerCount; // Actualizamos el valor visual
-            cantidadPasajerosField.value = passengerCount; // Actualizamos el valor del campo oculto
-        }
-    });
-</script>
 </body>
 </html>

@@ -437,4 +437,3 @@ tripOptions.forEach(option => {
         }
     });
 });
-
