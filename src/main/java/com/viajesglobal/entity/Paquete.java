@@ -24,5 +24,4 @@ public class Paquete {
     private int idVuelo;
 
 
-
 }
