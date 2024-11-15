@@ -2,16 +2,11 @@ package com.viajesglobal.controller;
 
 
 
-import com.viajesglobal.dto.LugarDTO;
+import com.viajesglobal.dto.*;
 
-import com.viajesglobal.dto.ReservaDTO;
-import com.viajesglobal.dto.RutaDTO;
-import com.viajesglobal.dto.VueloDTO;
 import com.viajesglobal.estado.ReservaEstado;
-import com.viajesglobal.service.LugarDAO;
-import com.viajesglobal.service.ReservaDAO;
-import com.viajesglobal.service.RutaDAO;
-import com.viajesglobal.service.VueloDAO;
+import com.viajesglobal.service.*;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +32,9 @@ public class ReservaController {
 
     @Autowired
     private RutaDAO rutaDAO;
+
+    @Autowired
+    private PaqueteDAO paqueteDAO;
 
 
     private int cantidadAsiento;
@@ -173,6 +171,29 @@ public class ReservaController {
 
         return "redirect:/usuario";
        }
+
+    @GetMapping("/reserva-paquete/{id}")
+    public String reservaPaquete(@PathVariable("id") Integer idPaquete, Model model) {
+        PaqueteDTO paqueteDTO = paqueteDAO.getPaquete(idPaquete);
+        if (paqueteDTO != null) {
+            reservaDAO.saveReserva(new ReservaDTO(
+                    1,
+                    paqueteDTO.getIdPaquete(),
+                    ReservaEstado.Pendiente,
+                    paqueteDTO.getPrecio(),
+                    paqueteDTO.getIdVuelo(),
+                    1
+            ));
+            System.out.println("Reserva de paquete guardado");
+            return "redirect:/usuario";
+        }
+        System.out.println("Reserva de paquete no encontrado");
+        return "redirect:/usuario";
+    }
+
+
+
+
 }
 
 

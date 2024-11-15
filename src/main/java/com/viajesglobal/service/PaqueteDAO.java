@@ -79,4 +79,14 @@ public class PaqueteDAO implements PaqueteMethod {
         }
         return paqueteDTOs;
     }
+
+    @Override
+    public PaqueteDTO getPaquete(int idPaquete) {
+        Paquete paquete = paqueteRepository.findById(idPaquete).orElse(null);
+        if (paquete != null) {
+            return new PaqueteDTO(paquete.getIdPaquete(),paquete.getNombre(),paquete.getDescripcion(),paquete.getPrecio(),paquete.getDisponibilidad(),paquete.getIdVuelo());
+        }
+
+        return null;
+    }
 }

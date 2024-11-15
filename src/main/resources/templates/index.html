@@ -141,7 +141,7 @@
             <!-- Disponibilidad del paquete -->
             <p class="card__description"><strong>Disponibilidad:</strong> <span th:text="${paquete.disponibilidad}">Disponible</span></p>
             <!-- Botón de compra -->
-            <a href="#" class="card__button">
+            <a th:href="@{/reserva/reserva-paquete/{id}(id=${paquete.idPaquete})}" class="card__button">
                 <button class="buy-btn">Comprar</button>
             </a>
         </div>
@@ -461,7 +461,7 @@
 </div>
 
 <!-- Archivo JavaScript -->
-<script src="./JS/index.js"></script>
+<script src="./js/index.js"></script>
 <script>
     // Variables para manejar la cantidad de pasajeros
     let passengerCount = 1;

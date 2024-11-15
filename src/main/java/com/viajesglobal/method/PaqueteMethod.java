@@ -11,5 +11,7 @@ public interface PaqueteMethod {
     public String updatePaquete(int idPaquete, PaqueteDTO paqueteDTO);
     public String deletePaquete(int idPaquete);
     public List<PaqueteDTO> getPaquetes();
+    public PaqueteDTO getPaquete(int idPaquete);
+
 
 }

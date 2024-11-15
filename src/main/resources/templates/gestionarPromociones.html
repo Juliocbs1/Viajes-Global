@@ -353,7 +353,7 @@
                 <div class="grupo-campo seleccion-vuelo">
                     <label class="etiqueta-vuelo">Id Vuelo</label>
                     <div class="contenedor-select">
-                        <select th:field="*{idVuelo}" class="form-input">
+                        <select th:field="*{idVuelo}" class="form-input" required>
                             <option value="0">Seleccione un vuelo</option>
                             <option th:each="vuelo: ${listavuelos}" th:value="${vuelo.idVuelo}"
                                     th:text="${vuelo.idVuelo} + ' - ' + ${vuelo.numeroVuelo}">
