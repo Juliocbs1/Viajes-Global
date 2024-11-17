@@ -49,4 +49,10 @@ public class PaquetesController {
     }
 
 
+    @GetMapping("/listarpaquetescompletos")
+    public String listarpaquetescompletos(Model model){
+        List<PaqueteDTO> lista = paqueteDAO.getPaquetes();
+        model.addAttribute("paquetes", lista);
+        return "paquetes";
+    }
 }

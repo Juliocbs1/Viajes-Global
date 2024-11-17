@@ -21,7 +21,11 @@ public class RutaDAO implements RutaMethod {
      */
     @Override
     public String insertarRuta(RutaDTO ruta) {
-        Ruta rutaAux = new Ruta(ruta.getIdRuta(),ruta.getIdOrigen(),ruta.getIdDestino(),ruta.getDuracionEstimada());
+        Ruta rutaAux = new Ruta(
+                ruta.getIdRuta(),
+                ruta.getIdOrigen(),
+                ruta.getIdDestino(),
+                ruta.getDuracionEstimada());
         try{
             rutaRepository.save(rutaAux);
             return "Ruta guardada";

@@ -44,4 +44,8 @@ public class AdminUsuarioController {
         return "redirect:/listausuarios";
     }
 
+    @GetMapping("/volver")
+    public String volver() {
+        return "redirect:/admin";
+    }
 }

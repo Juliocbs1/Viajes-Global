@@ -23,7 +23,13 @@ public class VueloDAO implements VueloMethod {
     @Override
     public String insertarVuelo(VueloDTO vuelo) {
         try{
-            Vuelo vueloAux =new Vuelo(vuelo.getIdRuta(),vuelo.getNumeroVuelo(),vuelo.getFechaSalida(),vuelo.getAsientosTotales(),vuelo.getAsientosDisponibles(),vuelo.getCostoAsiento());
+            Vuelo vueloAux =new Vuelo(
+                    vuelo.getIdRuta(),
+                    vuelo.getNumeroVuelo(),
+                    vuelo.getFechaSalida(),
+                    vuelo.getAsientosTotales(),
+                    vuelo.getAsientosDisponibles(),
+                    vuelo.getCostoAsiento());
             vueloRepository.save(vueloAux);
             return "Vuelo guardado";
         } catch (Exception e) {

@@ -1,0 +1,1640 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.page-container {
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh;
+}
+
+#main-content {
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 1rem; 
+}
+
+
+.navbar {
+    background-color: white;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1002; 
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    flex-shrink: 0;
+}
+
+.logo {
+    color: #6a0dad;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo svg {
+    margin-right: 0.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.nav-links a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+    padding: 1rem 0;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    color: inherit;
+}
+
+.nav-links a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::before {
+    width: 100%;
+}
+
+.nav-links a:nth-child(1):hover { color: #4CAF50; }
+.nav-links a:nth-child(2):hover { color: #FFA500; }
+.nav-links a:nth-child(3):hover { color: #1E90FF; }
+.nav-links a:nth-child(4):hover { color: #FF1493; }
+.nav-links a:nth-child(5):hover { color: #9932CC; }
+
+.nav-links a:nth-child(1):hover::before { background-color: #4CAF50; }
+.nav-links a:nth-child(2):hover::before { background-color: #FFA500; }
+.nav-links a:nth-child(3):hover::before { background-color: #1E90FF; }
+.nav-links a:nth-child(4):hover::before { background-color: #FF1493; }
+.nav-links a:nth-child(5):hover::before { background-color: #9932CC; }
+
+.account-btn {
+    background-color: #6a0dad;
+    color: #ffffff;
+    border: none;
+    padding: 0.6rem 1.2rem; 
+    border-radius: 9999px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+    margin-right: 15px; 
+}
+
+
+.account-btn:hover {
+    background-color: #24043b;
+}
+
+.account-btn svg {
+    margin-right: 0.5rem;
+}
+
+.menu-icon {
+    display: none;
+    background: none;
+    border: none;
+    color: #6a0dad;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+
+.fullscreen-menu {
+    display: block;
+    position: fixed; /* Cambiado a fixed para que cubra toda la pantalla sin desplazarse */
+    top: 56px;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: #6a0dad;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+    z-index: 999;
+}
+
+.fullscreen-menu.active {
+    height: calc(100vh - 56px); /* Ocupa la pantalla completa debajo de la barra */
+    opacity: 1;
+}
+
+.menu-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    height: 100%;
+    padding: 1rem 0;
+    margin-top: 2rem; /* Ajusta la distancia desde el borde superior */
+    overflow-y: auto; /* Permite hacer scroll si el contenido excede la altura */
+}
+
+.menu-item {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 1rem 1.5rem;
+    margin: 0;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/*APARTADO MOVIL*/
+
+.sub-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #6a0dad;
+    color: white;
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(100%);
+}
+
+.sub-menu .menu-content {
+    padding-top: 50px; /* Aumentar el padding superior solo en los submenús */
+}
+
+.sub-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Cabecera del submenú */
+.sub-menu h2 {
+    text-align: center;
+    margin: 20px 0;
+    padding-left: 40px;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Línea decorativa */
+.underline {
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.5);
+    width: 40px;
+    margin: 0 auto 30px;
+    transition: width 0.3s ease;
+}
+
+.sub-menu:hover .underline {
+    width: 60px;
+}
+
+/* Botón de regreso */
+/* Modificar el botón de regreso */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.3s ease;
+    margin-bottom: 40px; /* Añadir espacio debajo del botón */
+}
+
+/* Cambiar el contenido del botón para usar la misma flecha pero rotada */
+.back-button::after {
+    content: "➔"; /* Usar la misma flecha */
+    display: inline-block;
+    transform: rotate(180deg); /* Rotar la flecha */
+    font-size: 1.2rem; /* Mismo tamaño que las otras flechas */
+}
+
+
+
+.back-button:hover {
+    transform: translateX(-5px);
+}
+
+/* Elementos del submenú */
+.sub-menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.sub-menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding-left: 25px;
+}
+
+/* Ícono de flecha */
+.arrow-icon {
+    font-size: 1.2rem;
+    
+    transition: transform 0.3s ease;
+}
+
+.sub-menu-item:hover .arrow-icon {
+    transform: translateX(5px);
+}
+
+/* Animaciones suaves */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in {
+    animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.slide-out {
+    animation: slideOut 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/*FINAL APARTADO MOVIL*/
+
+.menu-item::after {
+    content: '';
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M1.5 6a.75.75 0 0 1 .75-.75h5.94L6.22 3.28a.75.75 0 0 1 1.06-1.06l3.25 3.25a.75.75 0 0 1 0 1.06L7.28 9.78a.75.75 0 0 1-1.06-1.06l1.97-1.97H2.25A.75.75 0 0 1 1.5 6'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-left: 0.5rem;
+}
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 0;
+    background-color: #4CAF50;
+    transition: height 0.3s ease;
+}
+
+.menu-item:hover::before {
+    height: 100%;
+}
+
+.menu-item:last-child::after {
+    display: block;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item:nth-child(1)::before { background-color: #4CAF50; }
+.menu-item:nth-child(2)::before { background-color: #FFA500; }
+.menu-item:nth-child(3)::before { background-color: #1E90FF; }
+.menu-item:nth-child(4)::before { background-color: #FF1493; }
+.menu-item:nth-child(5)::before { background-color: #9932CC; }
+
+@media (max-width: 1024px) {
+    .nav-links {
+        gap: 1rem;
+    }
+    .account-btn {
+        padding: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    .account-btn svg {
+        margin-right: 0;
+    }
+    .account-btn span {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+    }
+
+    .logo-container {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .menu-icon {
+        display: block;
+        font-size: 1.7rem;
+        color: #6a0dad;
+        cursor: pointer;
+        z-index: 1001;
+        margin-left: 10px;
+    }
+
+    .account-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #6a0dad;
+        color: white;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.5rem;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+}
+
+
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+}
+
+/* Contenedor principal del menú desplegable */
+.menu-container {
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    position: fixed; /* Cambiado de relative a fixed para que se superponga al contenido */
+    top: 56px; /* Ajustado para que esté debajo de la barra de navegación */
+    left: 0;
+    z-index: 1001; /* Aumentado para asegurar que esté por encima del contenido */
+    padding: 0.5rem 0;
+    display: none;
+    opacity: 0;
+    transform: translateY(-20px);
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    overflow: hidden;
+}
+
+
+.menu-container.active {
+    display: block;
+    animation: slideDown 0.3s ease forwards;
+}
+
+.menu-container.closing {
+    animation: slideUp 0.2s ease forwards;
+}
+
+/* Fondo oscuro que aparece detrás del menú desplegable */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000; /* Debajo de la barra de navegación y del menú */
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+}
+
+.hidden-section {
+    padding: 2rem;
+    background-color: #fff;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    border-bottom-left-radius: 15px; /* Redondear esquina inferior izquierda */
+    border-bottom-right-radius: 15px; /* Redondear esquina inferior derecha */
+}
+
+.hidden-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hidden-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #000;
+}
+
+/* Restante del CSS sin cambios */
+.offer-grid {
+    display: flex;
+    gap: 2rem;
+}
+
+.offer-columns {
+    display: flex;
+    gap: 2rem;
+    flex: 1;
+}
+
+.offer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    flex: 1;
+}
+
+.offer-item {
+    color: #333;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    transition: color 0.3s, transform 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.offer-item:hover {
+    color: #6a0dad;
+    transform: translateX(5px);
+}
+
+/* Colores específicos para cada sección */
+#reservarSection .offer-item:hover {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+#offersSection .offer-item:hover {
+    color: #FFA500;
+    font-weight: bold;
+}
+
+#miReservaSection .offer-item:hover {
+    color: #1E90FF;
+    font-weight: bold;
+}
+
+#ayudaSection .offer-item:hover {
+    color: #FF1493;
+    font-weight: bold;
+}
+
+#lealtadSection .offer-item:hover {
+    color: #9932CC;
+    font-weight: bold;
+}
+
+.arrow-icon {
+    font-size: 1.2rem;
+}
+
+.offer-promo-container {
+    flex: 1;
+    display: flex;
+    align-items: stretch;
+}
+
+.offer-promo {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.promo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.promo-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Estilos específicos para el promo-content de cada sección */
+#reservarSection .promo-content {
+    background: linear-gradient(to right, #4CAF50, #2E7D32);
+}
+
+#reservarSection .promo-tag {
+    color: #4CAF50;
+}
+
+#offersSection .promo-content {
+    background: linear-gradient(to right, #FFA500, #FF8C00);
+}
+
+#offersSection .promo-tag {
+    color: #FFA500;
+}
+
+#miReservaSection .promo-content {
+    background: linear-gradient(to right, #1E90FF, #0066CC);
+}
+
+#miReservaSection .promo-tag {
+    color: #1E90FF;
+}
+
+#ayudaSection .promo-content {
+    background: linear-gradient(to right, #FF1493, #C71585);
+}
+
+#ayudaSection .promo-tag {
+    color: #FF1493;
+}
+
+#lealtadSection .promo-content {
+    background: linear-gradient(to right, #9932CC, #6A1B9A);
+}
+
+#lealtadSection .promo-tag {
+    color: #9932CC;
+}
+
+.promo-tag {
+    background-color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    align-self: flex-start;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+}
+
+.promo-content h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.promo-content p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+    .offer-grid {
+        flex-direction: column;
+    }
+    
+    .offer-columns {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .offer-column {
+        flex: 1 1 calc(50% - 1rem); /* 2 columnas en tablets */
+        min-width: 250px;
+    }
+    
+    .offer-promo-container {
+        margin-top: 1rem;
+        width: 100%;
+    }
+    
+    .promo-content h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Ocultar menú container cuando aparece el menú hamburguesa */
+    .menu-container {
+        display: none !important; /* Forzar ocultamiento */
+        opacity: 0;
+    }
+    
+    .offer-columns {
+        flex-direction: column;
+    }
+    
+    .offer-column {
+        flex: 1 1 100%;
+    }
+    
+    .hidden-section {
+        padding: 1rem;
+    }
+    
+    .offer-promo-container {
+        aspect-ratio: 16/9;
+    }
+}
+
+@media (max-width: 480px) {
+    .hidden-section {
+        padding: 0.5rem;
+    }
+    
+    .offer-grid {
+        gap: 1rem;
+    }
+    
+    .offer-item {
+        padding: 0.75rem 0;
+    }
+    
+    .promo-content {
+        padding: 0.75rem;
+    }
+    
+    .promo-content h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/** Login Modal **/
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.login-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+/** Contenedor del Login **/
+.login-container {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: absolute;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    top: 50%;
+    left: 50%;
+}
+
+.login-container.slide-out {
+    opacity: 0;
+    transform: translate(-150%, -50%);
+}
+
+.login-container.slide-in {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* Contenedor desplazable para campos */
+.form-content {
+    overflow-y: auto;
+    max-height: 50vh;
+    margin-bottom: 1rem;
+    padding-right: 0.5rem;
+}
+
+/** Cabecera del Modal **/
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.login-header h2 {
+    color: #6a0dad;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-login {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s;
+}
+
+.close-login:hover {
+    color: #6a0dad;
+}
+
+/** Formulario **/
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/** Ajustes para grupos de campos **/
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+/** Estilo al enfocar campos **/
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #6a0dad;
+}
+
+/** Botón de envío **/
+.login-btn {
+    background: #6a0dad;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+.login-btn:hover {
+    background: #24043b;
+}
+
+/** Pie de página en el modal **/
+.login-footer {
+    margin-top: 1rem;
+    text-align: center;
+    color: #666;
+}
+
+.login-footer a {
+    color: #6a0dad;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.login-footer a:hover {
+    color: #24043b;
+    text-decoration: underline;
+}
+
+/* Estilos para el perfil del administrador */
+.admin-profile {
+    background-color: #f3f0f6;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.admin-info svg {
+    color: #6a0dad;
+    width: 40px;
+    height: 40px;
+}
+
+.admin-details h3 {
+    color: #333;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.admin-details p {
+    color: #666;
+    margin: 0.25rem 0 0 0;
+    font-size: 0.9rem;
+}
+
+/** Estilos para el grupo de notificaciones **/
+.notification-group {
+    margin-top: 1.5rem;
+}
+
+.notification-label {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.radio-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.custom-radio {
+    display: flex;
+    align-items: center;
+}
+
+.custom-radio input[type="radio"] {
+    display: none;
+}
+
+.custom-radio label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    gap: 0.5rem;
+}
+
+.radio-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a0dad;
+    border-radius: 50%; /* Rounded shape for radio */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-custom {
+    background-color: #6a0dad;
+}
+
+.custom-radio input[type="radio"]:checked + label .radio-custom::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%; /* Inner circle for checked radio */
+    transform: translate(-50%, -50%); /* Center the white circle */
+}
+
+.custom-radio label:hover .radio-custom {
+    border-color: #24043b;
+}
+
+
+/* Estilos para el botón de cerrar sesión */
+.logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #24043b;
+}
+
+.logout-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/** Ajustes Responsivos **/
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+        padding: 1.2rem;
+        height: auto;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 1rem;
+        margin: 1rem;
+        max-height: 70vh;
+    }
+}
+
+
+/* FOOTER */
+footer {
+    width: 100%; /* Asegura que el footer ocupe todo el ancho */
+    margin-top: auto; /* Empuja el footer al final */
+    grid-row: auto; /* Ajusta la posición si se usa grid (no es necesario con flex) */
+}
+
+.footer-section {
+    background-color: #6a0dad; /* Morado */
+    color: white;
+    padding: 3rem 0;
+    width: 100%;
+}
+
+.footer-section .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+}
+
+.footer-left, .footer-right {
+    flex: 1;
+    margin: 1rem;
+}
+
+.footer-left h3, .footer-right h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.footer-left p, .footer-right p {
+    margin-bottom: 1.5rem;
+}
+
+.footer-form {
+    display: flex;
+    max-width: 400px;
+    margin-top: 1rem;
+}
+
+.footer-form input {
+    flex: 2;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.footer-form button {
+    flex: 1;
+    background-color: #24043b;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+    font-size: 1rem;
+}
+
+.footer-form button:hover {
+    background-color: #4a0072;
+}
+
+.secure-section {
+    display: flex;
+    align-items: center; /* Centra el texto respecto al logo */
+    gap: 1rem;
+}
+
+.secure-section img {
+    height: 50px;
+    width: auto;
+}
+
+.footer-right p {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0; /* Elimina el margen inferior */
+}
+
+/* Mejora para las imágenes de métodos de pago */
+.payment-methods {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las imágenes se ajusten en múltiples líneas */
+    gap: 1rem;
+    margin-top: 1rem; /* Añade espacio entre el texto y las imágenes */
+    justify-content: flex-start; /* Alinea las imágenes al inicio */
+    padding-left: 50px; /* Alinea la primera imagen con la primera letra del texto */
+}
+
+.payment-methods img {
+    height: auto;
+    max-height: 40px; /* Asegura un tamaño uniforme */
+    width: auto;
+    transition: transform 0.3s ease; /* Animación suave de zoom */
+}
+
+.payment-methods img:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .footer-section .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-left, .footer-right {
+        text-align: center;
+        margin: 1rem 0;
+    }
+
+    .payment-methods {
+        padding-left: 0; /* Restablece el padding para centrar en pantallas medianas */
+        justify-content: center; /* Centra las imágenes */
+    }
+
+    .payment-methods img {
+        max-height: 30px; /* Tamaño más pequeño en pantallas medianas */
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-methods img {
+        max-height: 25px; /* Tamaño más pequeño en pantallas pequeñas */
+    }
+
+    .payment-methods {
+        gap: 0.5rem; /* Espacio reducido entre imágenes */
+    }
+}
+
+
+/* Main container */
+.main-container {
+    padding-top: 60px;
+    margin: 0 auto;
+    max-width: 1200px;
+    min-height: calc(100vh - 200px);
+    padding: 20px;
+    margin-top: 70px;
+}
+
+/* Container for cards */
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease-out;
+    position: relative;
+    max-width: 100%;
+}
+
+/* Header with button and search input */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.button {
+    background-color: #7E1BCC;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #6610a8;
+}
+
+#searchInput {
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+    font-size: 0.9rem;
+}
+
+/* Table styling with responsive container */
+.table-container {
+    background-color: white;
+    border-radius: 12px; /* Bordes redondeados para el contenedor */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+    margin-top: 20px;
+    padding: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate; /* Desactiva la fusión de bordes para que los bordes redondeados sean visibles */
+    border-spacing: 0; /* Elimina el espacio entre celdas */
+    font-size: 0.9rem;
+    min-width: 600px;
+    border-radius: 12px; /* Bordes redondeados para la tabla */
+    overflow: hidden;
+}
+
+thead {
+    background-color: #7E1BCC;
+    color: white;
+}
+
+th {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+}
+
+td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #e2e8f0;
+    color: #2d3748;
+    font-weight: normal;
+}
+
+/* Rounded corners for the first and last rows */
+table tr:first-child th:first-child {
+    border-top-left-radius: 12px; /* Borde redondeado en la esquina superior izquierda */
+}
+
+table tr:first-child th:last-child {
+    border-top-right-radius: 12px; /* Borde redondeado en la esquina superior derecha */
+}
+
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 12px; /* Borde redondeado en la esquina inferior izquierda */
+}
+
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 12px; /* Borde redondeado en la esquina inferior derecha */
+}
+
+/* Action buttons styling */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.edit-btn, .delete-btn, .update-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+}
+
+.edit-btn {
+    background-color: #7E1BCC;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #6610a8;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+.update-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.update-btn:hover {
+    background-color: #218838;
+}
+
+/* Alternating row colors for readability */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f0f4f8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    #searchInput {
+        width: 100%;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .table-container {
+        padding: 0.5rem;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    th, td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .button {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+
+
+
+/** Modal de Registro **/
+.modal-registro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-registro.activo {
+    display: flex;
+    opacity: 1;
+}
+
+/** Contenedores del Login y Registro **/
+.contenedor-registro {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    padding: 1.5rem;
+    position: absolute;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.contenedor-registro.slide-out {
+    opacity: 0;
+    transform: translate(-150%, -50%);
+}
+
+.contenedor-registro.slide-in {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* Contenedor desplazable para campos */
+.contenido-formulario {
+    overflow-y: auto;
+    max-height: 50vh;
+    margin-bottom: 1rem;
+    padding-right: 0.5rem;
+}
+
+/** Cabecera del Modal **/
+.cabecera-registro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.cabecera-registro h2 {
+    color: #6a0dad;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.cerrar-registro {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #666;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: color 0.3s;
+}
+
+.cerrar-registro:hover {
+    color: #6a0dad;
+}
+
+/** Formularios **/
+.formulario-registro {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/** Ajustes para grupos de campos **/
+.grupo-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.grupo-campo label {
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.grupo-campo input,
+.grupo-campo select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+/** Estilo al enfocar campos **/
+.grupo-campo input:focus,
+.grupo-campo select:focus {
+    outline: none;
+    border-color: #6a0dad;
+}
+
+/** Estilos para el grupo de notificaciones **/
+.notificaciones {
+    margin-top: 1.5rem;
+}
+
+.etiqueta-notificaciones {
+    margin-bottom: 1rem;
+    color: #333;
+    font-size: 0.9rem;
+}
+
+.contenedor-checkbox {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.checkbox-personalizado {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-personalizado input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-personalizado label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    gap: 0.5rem;
+}
+
+.checkbox-estilo {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a0dad;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.checkbox-personalizado input[type="checkbox"]:checked + label .checkbox-estilo {
+    background-color: #6a0dad;
+}
+
+.checkbox-personalizado input[type="checkbox"]:checked + label .checkbox-estilo::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-personalizado label:hover .checkbox-estilo {
+    border-color: #24043b;
+}
+
+/** Botón de envío **/
+.boton-registro {
+    background: #6a0dad;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+.boton-registro:hover {
+    background: #24043b;
+}
+
+/** Pie de página en el modal **/
+.login-footer {
+    margin-top: 1rem;
+    text-align: center;
+    color: #666;
+}
+
+.login-footer a {
+    color: #6a0dad;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.login-footer a:hover {
+    color: #24043b;
+    text-decoration: underline;
+}
+
+/** Ajustes Responsivos **/
+@media (max-width: 768px) {
+    .contenedor-registro {
+        max-width: 90%;
+        padding: 1.2rem;
+        height: auto;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .contenedor-registro {
+        padding: 1rem;
+        margin: 1rem;
+        max-height: 70vh;
+    }
+    
+    .contenedor-checkbox {
+        gap: 0.8rem;
+    }
+    
+    .checkbox-estilo {
+        width: 18px;
+        height: 18px;
+    }
+}
+
