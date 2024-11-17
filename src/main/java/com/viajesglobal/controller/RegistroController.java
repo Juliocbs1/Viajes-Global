@@ -51,10 +51,11 @@ public class RegistroController {
     @PostMapping("/registrar-usuario")
     public String saveUsuario(@ModelAttribute("usuarioDTO") UsuarioDTO usuarioDTO, Model model) {
         String resultado = registroDAO.saveUsuario(usuarioDTO);
+        System.out.println("Id usuario: " + usuarioDTO.getIdUsuario()+" resultado "+resultado);
         model.addAttribute("registroMensaje", resultado);
 
-        UsuarioDTO usuario = registroDAO.getUsuarioPorId(usuarioDTO.getIdUsuario());
-        model.addAttribute("usuario", usuario);
+
+        model.addAttribute("usuario", usuarioDTO.getIdUsuario());
 
         System.out.println("Preferencia de notificación recibida: " + usuarioDTO.getPreferenciaNotificacion());
 
@@ -64,7 +65,7 @@ public class RegistroController {
             email.setAsunto("Confirmación de Registro");
             email.setMensaje("Gracias por confiar en nosotros y registrarte. Te enviamos por este medio la información para que recuerdes tu usuario y contraseña.");
             System.out.println("Mensaje enviado por correo");
-            emailService.enviarCorreo(email, usuario);
+            emailService.enviarCorreo(email, usuarioDTO);
         }
 
         if (usuarioDTO.getPreferenciaNotificacion().equals(TipoNotificacion.SMS)) {

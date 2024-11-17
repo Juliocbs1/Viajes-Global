@@ -6,6 +6,7 @@ import com.viajesglobal.dto.*;
 
 import com.viajesglobal.estado.ReservaEstado;
 import com.viajesglobal.service.*;
+import jakarta.annotation.PostConstruct;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,9 +37,30 @@ public class ReservaController {
     @Autowired
     private PaqueteDAO paqueteDAO;
 
+    @Autowired
+    private RegistroDAO registroDAO;
+
+    private long idUsuario = 0;
 
     private int cantidadAsiento;
 
+
+    @PostMapping("/login")
+    public String login(@RequestParam("username")Long id, @RequestParam("password") String password, Model model) {
+        UsuarioDTO usuarioDTO=registroDAO.getUsuarioPorId( id);
+        if(usuarioDTO!=null) {
+            if(usuarioDTO.getContrasena().equals(password)) {
+                idUsuario=id;
+                System.out.println("Usuario encontrado");
+                return "redirect:/usuario";
+            }
+            System.out.println("Usuario no encontrado");
+            return "redirect:/usuario";
+        }
+        System.out.println("Usuario no encontrado");
+        return "redirect:/usuario";
+
+    }
 
 
     @PostMapping("/buscar-vuelos")
@@ -50,6 +72,10 @@ public class ReservaController {
             @RequestParam(required = false) LocalDate fechaVuelta, // Fecha de vuelta (opcional)
             @RequestParam Integer cantidadPasajeros, // Cantidad de pasajeros
             Model model) {
+        if(idUsuario==0) {
+            System.out.println("Usuario no encontrado");
+            return "redirect:/usuario";
+        }
 
         cantidadAsiento = 0;
 
@@ -130,7 +156,10 @@ public class ReservaController {
     public String confirmar(@RequestParam Integer vueloIda,  // ID del vuelo de ida seleccionado
                             @RequestParam(required = false) Integer vueloRegreso,  // ID del vuelo de regreso seleccionado (opcional)
                             Model model) {
-
+        if(idUsuario ==0){
+            System.out.println("Usuario no encontrado");
+            return "redirect:/usuario";
+        }
 
         System.out.println("ID vuelo ida "+vueloIda);
         System.out.println("ID vuelo vuelta "+vueloRegreso);
@@ -145,9 +174,16 @@ public class ReservaController {
         }
         long costoVueloIda = vueloDeIda.getCostoAsiento();
         long totalPorVueloIda = costoVueloIda * cantidadAsiento;
+        int asientosIda= vueloDeIda.getAsientosDisponibles()-cantidadAsiento;
+        if(asientosIda <=0){
+            System.out.println("Asientos no disponibles");
+            return "redirect:/usuario";
+        }
+        vueloDAO.modificarVuelo(vueloDeIda.getIdRuta(),new VueloDTO(vueloDeIda.getIdRuta(),vueloDeIda.getNumeroVuelo(),vueloDeIda.getFechaSalida(),vueloDeIda.getAsientosTotales(),asientosIda,vueloDeIda.getCostoAsiento()));
         System.out.println(1+" "+ null+" "+ ReservaEstado.Pendiente+" "+ totalPorVueloIda+" "+ vueloDeIda.getIdVuelo()+" "+cantidadAsiento);
-        ReservaDTO reservaIda = new ReservaDTO(1, null, ReservaEstado.Pendiente, totalPorVueloIda, vueloDeIda.getIdVuelo(), cantidadAsiento);
+        ReservaDTO reservaIda = new ReservaDTO((int)idUsuario, null, ReservaEstado.Pendiente, totalPorVueloIda, vueloDeIda.getIdVuelo(), cantidadAsiento);
         reservas.add(reservaIda);
+
 
 
         if (vueloRegreso != null) {
@@ -160,8 +196,17 @@ public class ReservaController {
 
             long costoVueloRegreso = vueloDeRegreso.getCostoAsiento();
             long totalPorVueloRegreso = costoVueloRegreso * cantidadAsiento;
-            ReservaDTO reservaRegreso = new ReservaDTO(1, null, ReservaEstado.Pendiente, totalPorVueloRegreso, vueloDeRegreso.getIdVuelo(), cantidadAsiento);
+            int asientosRegreso= vueloDeRegreso.getAsientosDisponibles() - cantidadAsiento;
+
+            if(asientosRegreso <=0){
+                System.out.println("Asientos no disponibles");
+                return "redirect:/usuario";
+            }
+
+            vueloDAO.modificarVuelo(vueloDeIda.getIdRuta(),new VueloDTO(vueloDeIda.getIdRuta(),vueloDeIda.getNumeroVuelo(),vueloDeIda.getFechaSalida(),vueloDeIda.getAsientosTotales(),asientosRegreso,vueloDeIda.getCostoAsiento()));
+            ReservaDTO reservaRegreso = new ReservaDTO((int)idUsuario, null, ReservaEstado.Pendiente, totalPorVueloRegreso, vueloDeRegreso.getIdVuelo(), cantidadAsiento);
             reservas.add(reservaRegreso);
+
         }
 
 
@@ -174,10 +219,14 @@ public class ReservaController {
 
     @GetMapping("/reserva-paquete/{id}")
     public String reservaPaquete(@PathVariable("id") Integer idPaquete, Model model) {
+        if(idUsuario == 0){
+            System.out.println("Usuario no encontrado");
+            return "redirect:/usuario";
+        }
         PaqueteDTO paqueteDTO = paqueteDAO.getPaquete(idPaquete);
         if (paqueteDTO != null) {
             reservaDAO.saveReserva(new ReservaDTO(
-                    1,
+                    (int)idUsuario,
                     paqueteDTO.getIdPaquete(),
                     ReservaEstado.Pendiente,
                     paqueteDTO.getPrecio(),
@@ -190,6 +239,9 @@ public class ReservaController {
         System.out.println("Reserva de paquete no encontrado");
         return "redirect:/usuario";
     }
+
+
+
 
 
 
