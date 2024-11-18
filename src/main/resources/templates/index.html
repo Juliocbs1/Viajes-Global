@@ -7,7 +7,7 @@
     <!-- Archivos de estilo -->
     <link rel="stylesheet" href="./CSS/index.css">
 </head>
-<body>
+<body onload="mostrarAlerta([[${errorMessage}]]);">
 
 <!-- Contenedor principal de la página -->
 <div class="page-container">
@@ -44,7 +44,11 @@
         <div class="overlay" id="overlay"></div>
 
         <!-- Aquí se coloca el contenedor de búsqueda -->
+
         <div class="search-container">
+            <div th:if="${errorMessage}" style="color: red;">
+                [[${errorMessage}]]
+            </div>
             <div class="extra-options">
                 <a href="#" class="extra-option">
                     Hoteles
@@ -59,6 +63,7 @@
                     </svg>
                 </a>
             </div>
+
 
             <form th:action="@{/reserva/buscar-vuelos}" method="post">
                 <div class="trip-type">

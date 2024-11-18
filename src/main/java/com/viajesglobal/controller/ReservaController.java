@@ -52,11 +52,14 @@ public class ReservaController {
             if(usuarioDTO.getContrasena().equals(password)) {
                 idUsuario=id;
                 System.out.println("Usuario encontrado");
+                model.addAttribute("errorMessage", "Usuario encontrado "+usuarioDTO.getNombre());
                 return "redirect:/usuario";
             }
+            model.addAttribute("errorMessage", "id o contraseña incorrectos.");
             System.out.println("Usuario no encontrado");
             return "redirect:/usuario";
         }
+        model.addAttribute("errorMessage", "Usuario no encontrado");
         System.out.println("Usuario no encontrado");
         return "redirect:/usuario";
 
